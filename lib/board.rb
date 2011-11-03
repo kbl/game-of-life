@@ -6,7 +6,12 @@ class Board
   end
 
   def <<(cell)
-    @cells << cell
+    x = @cells[cell.x] || @cells[cell.x] = []
+    x[cell.y] = cell
   end
 
-end
+  def [](x, y)
+    @cells[x][y]
+  end
+
+end                                      
