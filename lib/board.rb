@@ -14,5 +14,4 @@ class Board
     column_x = @cells[x]
     column_x[y] if column_x
   end
-
 end                                      
