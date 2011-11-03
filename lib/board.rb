@@ -11,7 +11,8 @@ class Board
   end
 
   def [](x, y)
-    @cells[x][y]
+    column_x = @cells[x]
+    column_x[y] if column_x
   end
 
 end                                      
