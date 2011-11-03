@@ -37,6 +37,15 @@ class Board
     end
   end
 
+  def remove(cell)
+    @cells.reject(&:nil?).each do |cell_column|
+      cell_column.reject(&:nil?).each do |c|
+        cell_column.delete(cell) if c == cell
+      end
+    end
+  end
+
+
   def empty?
     count == 0
   end

@@ -32,7 +32,7 @@ class Cell
   end
 
   def remove!
-    @board.drop(self)
+    @board.remove(self)
   end
 
   def to_s
