@@ -1,7 +1,8 @@
 class Board
-  attr_reader :cells
 
-  STARVATION_COUNT = 3
+  STARVATION_COUNT = 2
+
+  include Enumerable
 
   def initialize
     @cells = []
@@ -20,17 +21,24 @@ class Board
   end
 
   def tick
-    @cells.reject(&:nil?).each do |cell_column|
-      cell_column.reject(&:nil?).each do |cell|
-        cell.dying if cell.neighbours.count < STARVATION_COUNT
-      end
+    each do |cell|
+      cell.dying if cell.neighbours.count < STARVATION_COUNT
     end
+    each do |cell|
+      cell.remove! if cell.dying?
+    end
+  end
 
+  def each
     @cells.reject(&:nil?).each do |cell_column|
       cell_column.reject(&:nil?).each do |cell|
-        cell_column.delete(cell) if cell.dying?
+        yield(cell)
       end
     end
+  end
+
+  def empty?
+    count == 0
   end
 
 end

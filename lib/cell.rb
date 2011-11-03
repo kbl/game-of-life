@@ -31,6 +31,10 @@ class Cell
     @dying = true
   end
 
+  def remove!
+    @board.drop(self)
+  end
+
   def to_s
     "Cell[#{@x}, #{y}]"
   end
