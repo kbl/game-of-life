@@ -5,4 +5,8 @@ class Board
     @cells = []
   end
 
+  def <<(cell)
+    @cells << cell
+  end
+
 end
