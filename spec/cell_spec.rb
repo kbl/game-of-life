@@ -16,6 +16,23 @@ describe Cell do
       cell = Cell.new
       cell.neighbours.should be_empty
     end
+
+    context 'creating two cells' do
+      let(:cell00) { Cell.new(0, 0) }
+      let(:cell01) { Cell.new(0, 1) }
+
+      it 'should have one neighbour' do
+        pending 
+        cell00.neighbours.count.should == 1
+        cell01.neighbours.count.should == 1
+      end
+
+      it 'should contain neighbours' do
+        pending 
+        cell00.neighbours[0].should == cell01
+        cell01.neighbours[0].should == cell02
+      end
+    end
   end
 
   describe 'cell spawning' do
