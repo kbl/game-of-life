@@ -20,24 +20,26 @@ describe Cell do
     end
 
     context 'creating two cells' do
-      let(:cell00) { Cell.new(board, 1, 0) }
-      let(:cell01) { Cell.new(board, 0, 1) }
+
+      before :each do
+        @c0 = Cell.new(board, 1, 0)
+        @c1 = Cell.new(board, 0, 1)
+      end
+
 
       it 'should have one neighbour' do
-        pending 
-        cell00.neighbours.count.should == 1
-        cell01.neighbours.count.should == 1
+        @c0.neighbours.count.should == 1
+        @c1.neighbours.count.should == 1
       end
 
       it 'should contain neighbours' do
-        pending 
-        cell00.neighbours[0].should == cell01
-        cell01.neighbours[0].should == cell02
+        @c0.neighbours[0].should == @c1
+        @c1.neighbours[0].should == @c0
       end
     end
   end
 
-  describe 'cell spawning' do
+  describe 'cell creation' do
     subject { Cell.new(board, 1, 2) }
 
     it 'should create new cell at given location x' do
