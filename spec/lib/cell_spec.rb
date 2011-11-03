@@ -1,17 +1,16 @@
 require 'rspec'
 require 'cell'
 
+RSpec::Matchers.define :have_neighbour do |expected|
+  match do |cell|
+    cell.neighbours.count.should == 1
+    cell.neighbours[0].should == expected
+  end
+end
+
 describe Cell do
 
   let(:board) { Board.new }
-
-  describe 'state' do
-    subject { Cell.new(board) }
-
-    it 'newly created cell should be alive' do
-      subject.should be_alive
-    end
-  end
 
   describe 'neighbourhood' do
     it 'sholuld create cell without any neighbours' do
@@ -20,21 +19,41 @@ describe Cell do
     end
 
     context 'creating two cells' do
-
       before :each do
-        @c0 = Cell.new(board, 1, 0)
-        @c1 = Cell.new(board, 0, 1)
+        @center = Cell.new(board, 1, 1)
       end
 
-
-      it 'should have one neighbour' do
-        @c0.neighbours.count.should == 1
-        @c1.neighbours.count.should == 1
+      it 'should have one neighbour (0,0)' do
+        c = Cell.new(board, 0, 0)
+        @center.should have_neighbour(c)
       end
-
-      it 'should contain neighbours' do
-        @c0.neighbours[0].should == @c1
-        @c1.neighbours[0].should == @c0
+      it 'should have one neighbour (0,1)' do
+        c = Cell.new(board, 0, 1)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (0,2)' do
+        c = Cell.new(board, 0, 2)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (1,0)' do
+        c = Cell.new(board, 1, 0)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (1,2)' do
+        c = Cell.new(board, 1, 2)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (2,0)' do
+        c = Cell.new(board, 2, 0)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (2,1)' do
+        c = Cell.new(board, 2, 1)
+        @center.should have_neighbour(c)
+      end
+      it 'should have one neighbour (2,2)' do
+        c = Cell.new(board, 2, 2)
+        @center.should have_neighbour(c)
       end
     end
   end
@@ -52,6 +71,18 @@ describe Cell do
       cell = Cell.new(board)
       cell.x.should == 0
       cell.y.should == 0
+    end
+  end
+
+  describe 'cell live' do
+    subject { Cell.new(board) }
+
+    it 'newly created cell should be alive' do
+      subject.should be_alive
+    end
+    it 'cell marked as dying shouldnt be alive' do
+      subject.dying
+      subject.should_not be_alive
     end
   end
 

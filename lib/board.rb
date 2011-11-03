@@ -16,4 +16,18 @@ class Board
     column_x = @cells[x]
     column_x[y] if column_x
   end
+
+  def tick
+    @cells.each do |cell_column|
+      cell_column.each do |cell|
+        cell.dying if cell.neighbours > 3
+      end
+    end
+    @cells.each do |cell_column|
+      cell_column.each do |cell|
+        cell_column.delete(cell) if cell.dying?
+      end
+    end
+  end
+
 end

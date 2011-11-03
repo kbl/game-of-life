@@ -28,4 +28,16 @@ describe Board do
     end
   end
 
+  describe 'tick' do
+    context 'under-populated cells' do
+      it 'should destroy cells with neighbourhood = 1' do
+        c1 = Cell.new(subject, 1, 1)
+        subject.cells.should_not be_empty
+
+        subject.tick
+        subject.cells.should be_empty
+      end
+    end
+  end
+
 end

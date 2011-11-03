@@ -8,6 +8,7 @@ class Cell
   def initialize(board, x = 0, y = 0)
     @x, @y = x, y
     @board = board
+    @dying = false
     board << self
   end
 
@@ -21,7 +22,13 @@ class Cell
   end
 
   def alive?
-    true
+    not dying?
+  end
+  def dying?
+    @dying
+  end
+  def dying
+    @dying = true
   end
 
   def to_s
