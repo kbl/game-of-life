@@ -45,7 +45,6 @@ class Board
     end
   end
 
-
   def empty?
     count == 0
   end
