@@ -6,9 +6,22 @@ class Cell
     []
   end
 
+  def alive?
+    true
+  end
+
 end
 
 describe Cell do
+
+  describe 'state' do
+    subject { Cell.new }
+
+    it 'newly created cell should be alive' do
+      subject.should be_alive
+    end
+
+  end
     
   it 'sholuld create cell without any neighbours' do
     cell = Cell.new
