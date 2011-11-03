@@ -10,8 +10,8 @@ describe Board do
   end
 
   it 'should remember created cells' do
-    subject << Cell.new
-    subject << Cell.new(1, 3)
+    Cell.new(subject)
+    Cell.new(subject, 1, 3)
 
     subject.cells.count.should == 2
   end
