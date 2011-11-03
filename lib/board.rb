@@ -1,6 +1,8 @@
 class Board
   attr_reader :cells
 
+  STARVATION_COUNT = 3
+
   def initialize
     @cells = []
   end
@@ -18,13 +20,14 @@ class Board
   end
 
   def tick
-    @cells.each do |cell_column|
-      cell_column.each do |cell|
-        cell.dying if cell.neighbours > 3
+    @cells.reject(&:nil?).each do |cell_column|
+      cell_column.reject(&:nil?).each do |cell|
+        cell.dying if cell.neighbours.count < STARVATION_COUNT
       end
     end
-    @cells.each do |cell_column|
-      cell_column.each do |cell|
+
+    @cells.reject(&:nil?).each do |cell_column|
+      cell_column.reject(&:nil?).each do |cell|
         cell_column.delete(cell) if cell.dying?
       end
     end
