@@ -26,36 +26,34 @@ describe Board do
     end
   end
 
-  describe 'tick' do
-    describe 'rule 1' do
-      context 'under-populated cells' do
-        it 'should destroy cells with neighbourhood = 0' do
-          Cell.new(subject, 1, 1)
-          subject.count.should == 1
+  describe 'rules' do
+    context 'rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population' do
+      it 'should destroy cells with neighbourhood = 0' do
+        Cell.new(subject, 1, 1)
+        subject.count.should == 1
 
-          subject.tick
+        subject.tick
 
-          subject.should be_empty
-        end
-        it 'should destroy cells with neighbourhood = 1' do
-          Cell.new(subject, 1, 1)
-          Cell.new(subject, 1, 2)
-          subject.count.should == 2
+        subject.should be_empty
+      end
+      it 'should destroy cells with neighbourhood = 1' do
+        Cell.new(subject, 1, 1)
+        Cell.new(subject, 1, 2)
+        subject.count.should == 2
 
-          subject.tick
+        subject.tick
 
-          subject.should be_empty
-        end
-        it 'should leave cells with neighbourhood = 2' do
-          c1 = Cell.new(subject, 1, 1)
-          c2 = Cell.new(subject, 1, 2)
-          c3 = Cell.new(subject, 2, 1)
-          subject.count.should == 3
+        subject.should be_empty
+      end
+      it 'should leave cells with neighbourhood = 2' do
+        c1 = Cell.new(subject, 1, 1)
+        c2 = Cell.new(subject, 1, 2)
+        c3 = Cell.new(subject, 2, 1)
+        subject.count.should == 3
 
-          subject.tick
+        subject.tick
 
-          subject.should include([c1, c2, c3])
-        end
+        subject.should include([c1, c2, c3])
       end
     end
   end
