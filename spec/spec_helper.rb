@@ -1,5 +1,8 @@
-require 'cell'
+require 'gol/cell'
+require 'gol/board'
+
 require 'rspec'
+
 RSpec::Matchers.define :have_neighbours do |expected|
   match do |cell|
     if expected.respond_to?(:each)
