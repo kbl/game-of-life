@@ -21,6 +21,18 @@ class Cell
     neighbours
   end
 
+  def empty_neighbours
+    empty_neighbours = []
+    NEIGHBOURS.each do |x, y|
+      cords = [@x + x, @y + y]
+      next if cords.any? { |axis| axis < 0 }
+
+      neighbour = board[*cords]
+      empty_neighbours << cords unless neighbour
+    end
+    empty_neighbours
+  end
+
   def alive?
     not dying?
   end
