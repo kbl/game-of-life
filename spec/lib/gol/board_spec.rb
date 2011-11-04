@@ -28,9 +28,8 @@ module Gol
     end
 
     describe 'checkig cell at any position' do 
-      it 'should be possible for checking neighbours on any point on the board' do
-
-      
+      it 'empty array for clear board' do
+        subject.neighbours(1, 1).should be_empty
       end
     end
 

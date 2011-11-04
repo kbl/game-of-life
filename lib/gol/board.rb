@@ -9,6 +9,7 @@ module Gol
     REPRODUCTION_COUNT = 3
 
     include Enumerable
+    include Neighbourhood
 
     def initialize
       @cells = []
@@ -55,6 +56,12 @@ module Gol
 
     def empty?
       count == 0
+    end
+
+    def neighbours(x, y)
+      neighbours_each(x, y) do |cords|
+        self.[](*cords)
+      end
     end
 
     private 
