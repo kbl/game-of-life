@@ -1,4 +1,4 @@
-require 'rspec_helper'
+require 'spec_helper'
 
 describe Board do
 
@@ -34,6 +34,7 @@ describe Board do
           subject.count.should == 1
 
           subject.tick
+
           subject.should be_empty
         end
         it 'should destroy cells with neighbourhood = 1' do
@@ -42,17 +43,18 @@ describe Board do
           subject.count.should == 2
 
           subject.tick
+
           subject.should be_empty
         end
         it 'should leave cells with neighbourhood = 2' do
-          pending
           c1 = Cell.new(subject, 1, 1)
           c2 = Cell.new(subject, 1, 2)
-          c3 = Cell.new(subject, 1, 2)
+          c3 = Cell.new(subject, 2, 1)
           subject.count.should == 3
 
           subject.tick
-          subject.count.should == 3
+
+          subject.should include([c1, c2, c3])
         end
       end
     end

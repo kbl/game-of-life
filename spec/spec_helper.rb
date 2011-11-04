@@ -8,9 +8,8 @@ RSpec::Matchers.define :have_neighbour do |expected|
   end
 end
 
-RSpec::Matchers.define :includes do |expected|
-  match do |array|
-    array
-    false
+RSpec::Matchers.define :include do |expected|
+  match do |board|
+    expected & board.to_a == expected
   end
 end
