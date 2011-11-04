@@ -1,8 +1,9 @@
 require 'board'
+require 'neighbourhood'
 
 class Cell
 
-  include Neighbourhood
+  include ::Neighbourhood
 
   attr_reader :x, :y, :board
 
@@ -14,25 +15,34 @@ class Cell
   end
 
   def neighbours
+    neighbours_each do |cords|
+      board[*cords]
+    end
+  end
+
+  def empty_neighbours
+    neighbours_each do |cords|
+      cords_lower_than_zero = cords.any? { |axis| axis < 0 }
+
+      unless(cords_lower_than_zero)
+        neighbour = board[*cords]
+        cords unless neighbour
+      end
+    end
+  end
+
+  def neighbours_each(cord_x = @x, cord_y = @y)
     neighbours = []
     NEIGHBOURS.each do |x, y|
-      neighbour = board[@x + x, @y + y]
-      neighbours << neighbour if neighbour
+      cords = [cord_x + x, cord_y + y]
+
+      returned = yield cords
+
+      neighbours << returned if returned
     end
     neighbours
   end
 
-  def empty_neighbours
-    empty_neighbours = []
-    NEIGHBOURS.each do |x, y|
-      cords = [@x + x, @y + y]
-      next if cords.any? { |axis| axis < 0 }
-
-      neighbour = board[*cords]
-      empty_neighbours << cords unless neighbour
-    end
-    empty_neighbours
-  end
 
   def alive?
     not dying?
