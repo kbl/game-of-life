@@ -17,35 +17,35 @@ describe Cell do
 
       it 'should have one neighbour (0,0)' do
         c = Cell.new(board, 0, 0)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (0,1)' do
         c = Cell.new(board, 0, 1)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (0,2)' do
         c = Cell.new(board, 0, 2)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (1,0)' do
         c = Cell.new(board, 1, 0)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (1,2)' do
         c = Cell.new(board, 1, 2)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,0)' do
         c = Cell.new(board, 2, 0)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,1)' do
         c = Cell.new(board, 2, 1)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,2)' do
         c = Cell.new(board, 2, 2)
-        @center.should have_neighbour(c)
+        @center.should have_neighbours(c)
       end
     end
   end
