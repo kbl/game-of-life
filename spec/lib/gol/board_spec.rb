@@ -80,7 +80,6 @@ module Gol
           subject.tick
 
           subject.should contain([c1, c2, c3])
-          subject.count.should == 3
         end
       end
       context 'rule 3: Any live cell with more than three live neighbours dies, as if by overcrowding' do
@@ -95,11 +94,9 @@ module Gol
           subject.tick
 
           subject.should contain([c1, c3, c4, c5])
-          subject.count.should == 4
         end
         context 'rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction' do
           it 'should reproduct dying cell with three neighbours' do
-            pending
             c1 = Cell.new(subject, 1, 1)
             c2 = Cell.new(subject, 2, 1)
             c3 = Cell.new(subject, 1, 2)
@@ -112,6 +109,29 @@ module Gol
             c3.neighbours.count.should == 3
             c3.neighbours[0].x.should == 2
             c3.neighbours[0].y.should == 2
+          end
+          it 'should properly reproduct cells (6 from 4)' do
+            c1 = Cell.new(subject, 1, 1)
+            c2 = Cell.new(subject, 1, 2)
+            c3 = Cell.new(subject, 2, 1)
+            c4 = Cell.new(subject, 0, 0)
+            subject.count.should == 4
+
+            subject.tick
+
+            subject.count.should == 6
+          end
+          it 'should properly reproduct cells (8 from 5)' do
+            c1 = Cell.new(subject, 0, 1)
+            c2 = Cell.new(subject, 1, 1)
+            c3 = Cell.new(subject, 2, 1)
+            c4 = Cell.new(subject, 1, 0)
+            c5 = Cell.new(subject, 1, 2)
+            subject.count.should == 5
+
+            subject.tick
+
+            subject.count.should == 8
           end
         end
       end

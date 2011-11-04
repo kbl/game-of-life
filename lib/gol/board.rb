@@ -1,5 +1,6 @@
 require 'gol/cell'
 require 'gol/neighbourhood'
+require 'set'
 
 module Gol
   class Board
@@ -67,7 +68,15 @@ module Gol
     private 
 
     def reproduct
-      # TODO
+      cell_to_reproduction = Set.new
+      each do |cell|
+        cell.empty_neighbours.each do |cords|
+          cell_to_reproduction << cords if neighbours(*cords).count == REPRODUCTION_COUNT
+        end
+      end
+      cell_to_reproduction.each do |cords|
+        Cell.new(self, *cords)
+      end
     end
 
   end
