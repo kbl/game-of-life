@@ -45,6 +45,8 @@ describe Board do
 
         subject.should be_empty
       end
+    end
+    context 'rule 2: Any live cell with two or three live neighbours lives on to the next generation' do
       it 'should leave cells with neighbourhood = 2' do
         c1 = Cell.new(subject, 1, 1)
         c2 = Cell.new(subject, 1, 2)
@@ -55,6 +57,19 @@ describe Board do
 
         subject.should include([c1, c2, c3])
       end
+      it 'should leave cells with neighbourhood = 3' do
+        c1 = Cell.new(subject, 1, 1)
+        c2 = Cell.new(subject, 1, 2)
+        c3 = Cell.new(subject, 2, 1)
+        c4 = Cell.new(subject, 0, 0)
+        subject.count.should == 4
+
+        subject.tick
+
+        subject.should include([c1, c2, c3])
+        subject.count.should == 3
+      end
+
     end
   end
 
