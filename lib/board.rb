@@ -2,6 +2,7 @@ class Board
 
   STARVATION_COUNT = 2
   OVERCROUDED_COUNT = 3
+  REPRODUCTION_COUNT = 3
 
   include Enumerable
 
@@ -26,6 +27,7 @@ class Board
       cell.dying if cell.neighbours.count < STARVATION_COUNT
       cell.dying if cell.neighbours.count > OVERCROUDED_COUNT
     end
+    reproduct
     each do |cell|
       cell.remove! if cell.dying?
     end
@@ -49,6 +51,12 @@ class Board
 
   def empty?
     count == 0
+  end
+
+  private 
+
+  def reproduct
+    # TODO
   end
 
 end
