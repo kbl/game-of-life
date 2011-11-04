@@ -1,12 +1,4 @@
-require 'rspec'
-require 'cell'
-
-RSpec::Matchers.define :have_neighbour do |expected|
-  match do |cell|
-    cell.neighbours.count.should == 1
-    cell.neighbours[0].should == expected
-  end
-end
+require 'rspec_helper'
 
 describe Cell do
 

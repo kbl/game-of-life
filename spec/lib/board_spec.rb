@@ -1,6 +1,4 @@
-require 'rspec'
-require 'board'
-require 'cell'
+require 'rspec_helper'
 
 describe Board do
 
@@ -29,13 +27,33 @@ describe Board do
   end
 
   describe 'tick' do
-    context 'under-populated cells' do
-      it 'should destroy cells with neighbourhood = 1' do
-        c1 = Cell.new(subject, 1, 1)
-        subject.should_not be_empty
+    describe 'rule 1' do
+      context 'under-populated cells' do
+        it 'should destroy cells with neighbourhood = 0' do
+          Cell.new(subject, 1, 1)
+          subject.count.should == 1
 
-        subject.tick
-        subject.should be_empty
+          subject.tick
+          subject.should be_empty
+        end
+        it 'should destroy cells with neighbourhood = 1' do
+          Cell.new(subject, 1, 1)
+          Cell.new(subject, 1, 2)
+          subject.count.should == 2
+
+          subject.tick
+          subject.should be_empty
+        end
+        it 'should leave cells with neighbourhood = 2' do
+          pending
+          c1 = Cell.new(subject, 1, 1)
+          c2 = Cell.new(subject, 1, 2)
+          c3 = Cell.new(subject, 1, 2)
+          subject.count.should == 3
+
+          subject.tick
+          subject.count.should == 3
+        end
       end
     end
   end
