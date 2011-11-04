@@ -31,6 +31,12 @@ module Gol
       it 'empty array for clear board' do
         subject.neighbours(1, 1).should be_empty
       end
+      it 'should return 2 neighbours' do
+        c1 = Cell.new(subject, 1, 0)
+        c2 = Cell.new(subject, 0, 0)
+        
+        subject.neighbours(1, 1).should contain([c1, c2])
+      end
     end
 
     describe 'rules' do
@@ -62,7 +68,7 @@ module Gol
 
           subject.tick
 
-          subject.should include([c1, c2, c3])
+          subject.should contain([c1, c2, c3])
         end
         it 'should leave cells with neighbourhood = 3' do
           c1 = Cell.new(subject, 1, 1)
@@ -73,7 +79,7 @@ module Gol
 
           subject.tick
 
-          subject.should include([c1, c2, c3])
+          subject.should contain([c1, c2, c3])
           subject.count.should == 3
         end
       end
@@ -88,7 +94,7 @@ module Gol
 
           subject.tick
 
-          subject.should include([c1, c3, c4, c5])
+          subject.should contain([c1, c3, c4, c5])
           subject.count.should == 4
         end
         context 'rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction' do
@@ -101,7 +107,7 @@ module Gol
 
             subject.tick
 
-            subject.should include([c1, c2, c3])
+            subject.should contain([c1, c2, c3])
             subject.count.should == 4
             c3.neighbours.count.should == 3
             c3.neighbours[0].x.should == 2

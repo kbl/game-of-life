@@ -15,7 +15,7 @@ RSpec::Matchers.define :have_neighbours do |expected|
   end
 end
 
-RSpec::Matchers.define :include do |expected|
+RSpec::Matchers.define :contain do |expected|
   match do |board|
     includes(board, expected)
   end
