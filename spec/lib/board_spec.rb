@@ -69,7 +69,21 @@ describe Board do
         subject.should include([c1, c2, c3])
         subject.count.should == 3
       end
+    end
+    context 'rule 3: Any live cell with more than three live neighbours dies, as if by overcrowding' do
+      it 'should destroy cells with neighbourhood = 4' do
+        c1 = Cell.new(subject, 0, 1)
+        c2 = Cell.new(subject, 1, 1)
+        c3 = Cell.new(subject, 2, 1)
+        c4 = Cell.new(subject, 1, 0)
+        c5 = Cell.new(subject, 1, 2)
+        subject.count.should == 5
 
+        subject.tick
+
+        subject.should include([c1, c3, c4, c5])
+        subject.count.should == 4
+      end
     end
   end
 

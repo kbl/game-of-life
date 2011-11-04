@@ -1,6 +1,7 @@
 class Board
 
   STARVATION_COUNT = 2
+  OVERCROUDED_COUNT = 3
 
   include Enumerable
 
@@ -23,6 +24,7 @@ class Board
   def tick
     each do |cell|
       cell.dying if cell.neighbours.count < STARVATION_COUNT
+      cell.dying if cell.neighbours.count > OVERCROUDED_COUNT
     end
     each do |cell|
       cell.remove! if cell.dying?
