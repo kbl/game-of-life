@@ -26,12 +26,11 @@ module Gol
     end
 
     def <<(cell)
-      x = cell.x % @size_x
-      y = cell.y % @size_y
-      cell.x = x
-      cell.y = y
-      column_x = @cells[x]
-      column_x[y] = cell
+      cell.x %= @size_x
+      cell.y %= @size_y
+
+      column_x = @cells[cell.x]
+      column_x[cell.y] = cell
     end
 
     def [](x, y)
