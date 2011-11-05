@@ -24,8 +24,10 @@ module Gol
     end
 
     def <<(cell)
-      column_x = @cells[cell.x] || @cells[cell.x] = []
-      column_x[cell.y] = cell
+      x = cell.x % @size[0]
+      y = cell.y % @size[1]
+      column_x = @cells[x]
+      column_x[y] = cell
     end
 
     def [](x, y)

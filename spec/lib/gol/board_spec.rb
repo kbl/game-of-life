@@ -47,6 +47,25 @@ module Gol
       it 'each board must have size, default 100x100' do
         subject.size.should == [100, 100]
       end
+      it 'should be posiible to create board with specified size' do
+        size = [10, 10]
+        Board.new(*size).size.should == size
+      end
+    end
+
+    describe 'infinite board' do
+      it 'should create cells on infinite manner (101,102) becomes (1,2)' do
+        c = Cell.new(subject, 101, 102)
+
+        subject.count.should == 1
+        subject[1, 2].should == c
+      end
+      it 'should change moved cell cords according to board size' do
+        pending
+        c = Cell.new(subject, 101, 102)
+        c.x.should == 1
+        c.y.should == 2
+      end
     end
 
     describe 'rules' do
