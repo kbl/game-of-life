@@ -55,15 +55,37 @@ module Gol
 
     describe 'infinite board' do
       it 'should create cells on infinite manner (101,102) becomes (1,2)' do
-        c = Cell.new(subject, 101, 102)
+        c = cell(101, 102)
 
         subject.count.should == 1
         subject[1, 2].should == c
       end
       it 'should change moved cell cords according to board size' do
-        c = Cell.new(subject, 101, 102)
+        c = cell(101, 102)
         c.x.should == 1
         c.y.should == 2
+      end
+      it 'should be possible to put cell on borders - edge case' do
+        c = cell(99, 99)
+
+        subject[99, 99].should == c
+        c.x.should == 99
+        c.y.should == 99
+      end
+      it 'should find neighbours on board edges' do
+        c0_0 = cell(0, 0)
+        c0_1 = cell(0, 1)
+        c0_99 = cell(0, 99)
+
+        c1_0 = cell(1, 0)
+        c1_1 = cell(1, 1)
+        c1_99 = cell(1, 99)
+
+        c99_0 = cell(99, 0)
+        c99_1 = cell(99, 1)
+        c99_99 = cell(99, 99)
+
+        c0_0.should have_neighbours([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
       end
     end
 

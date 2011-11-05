@@ -34,10 +34,11 @@ module Gol
     end
 
     def [](x, y)
-      return if x < 0 || y < 0
+      x %= @size_x
+      y %= @size_y
 
       column_x = @cells[x]
-      column_x[y] if column_x
+      column_x[y]
     end
 
     def tick

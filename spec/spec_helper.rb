@@ -6,7 +6,7 @@ require 'rspec'
 RSpec::Matchers.define :have_neighbours do |expected|
   match do |cell|
     if expected.respond_to?(:each)
-      cell.neighbours.count.should == expected.lenght
+      cell.neighbours.count.should == expected.size
       includes(cell.neighbours, expected)
     else
       cell.neighbours.count.should == 1
