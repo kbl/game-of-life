@@ -12,8 +12,15 @@ module Gol
     include Enumerable
     include Neighbourhood
 
-    def initialize
-      @cells = []
+    attr_reader :size
+
+    def initialize(size_x = 100, size_y = 100)
+      @size = [size_x, size_y]
+
+      @cells = Array.new(size_x)
+      (0..size_x).each do |column_index|
+        @cells[column_index] = Array.new(size_y)
+      end
     end
 
     def <<(cell)

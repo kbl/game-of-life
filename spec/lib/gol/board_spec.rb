@@ -43,6 +43,12 @@ module Gol
       end
     end
 
+    describe 'board size' do
+      it 'each board must have size, default 100x100' do
+        subject.size.should == [100, 100]
+      end
+    end
+
     describe 'rules' do
       context 'rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population' do
         it 'should destroy cells with neighbourhood = 0' do
