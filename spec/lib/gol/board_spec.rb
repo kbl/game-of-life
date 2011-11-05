@@ -61,7 +61,6 @@ module Gol
         subject[1, 2].should == c
       end
       it 'should change moved cell cords according to board size' do
-        pending
         c = Cell.new(subject, 101, 102)
         c.x.should == 1
         c.y.should == 2

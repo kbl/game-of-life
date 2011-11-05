@@ -6,7 +6,8 @@ module Gol
 
     include Neighbourhood
 
-    attr_reader :x, :y, :board
+    attr_reader :board
+    attr_accessor :x, :y
 
     def initialize(board, x = 0, y = 0)
       @x, @y = x, y

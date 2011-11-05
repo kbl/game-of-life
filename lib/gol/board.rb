@@ -26,6 +26,8 @@ module Gol
     def <<(cell)
       x = cell.x % @size[0]
       y = cell.y % @size[1]
+      cell.x = x
+      cell.y = y
       column_x = @cells[x]
       column_x[y] = cell
     end
