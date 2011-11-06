@@ -10,7 +10,7 @@ module Gol
         subject.y.should == 50
       end
       it 'should be possible to create board with chosen size' do
-        board = Board.new(20, 30)
+        board = Board.new(Universe.new(20, 30))
 
         board.x.should == 20
         board.y.should == 30

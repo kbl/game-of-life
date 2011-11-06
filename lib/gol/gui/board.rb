@@ -3,8 +3,8 @@ require 'gol/universe'
 module Gol
   module Gui
     class Board
-      def initialize(x = 50, y = 50)
-        @universe = Universe.new(x, y)
+      def initialize(universe = Universe.new(50, 50))
+        @universe = universe
         @board = []
         @universe.y.times { @board << [] }
       end
@@ -32,7 +32,7 @@ module Gol
 
       def tick
         @universe.tick
-
+        
       end
     end
   end
