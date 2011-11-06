@@ -123,7 +123,7 @@ module Gol
         c = cell(101, 102)
 
         subject.count.should == 1
-        subject[1, 2].should == c.cords
+        subject[1, 2].should == c
       end
       it 'should change moved cell cords according to universe size' do
         c = cell(101, 102)
@@ -150,7 +150,7 @@ module Gol
         c99_1 = cell(99, 1)
         c99_99 = cell(99, 99)
 
-        c0_0.should have_neighbours([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
+        subject.neighbours(0, 0).should contain([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
       end
     end
 

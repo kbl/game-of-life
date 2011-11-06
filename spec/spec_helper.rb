@@ -13,8 +13,7 @@ end
 
 RSpec::Matchers.define :contain do |expected|
   match do |actual|
-    cords = actual.map { |cell| cell.cords }
-    includes(cords, expected)
+    includes(actual, expected)
   end
 end
 
