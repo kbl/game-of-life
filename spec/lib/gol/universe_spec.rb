@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 module Gol
-  describe Board do
+  describe Universe do
 
-    subject { Board.new }
+    subject { Universe.new }
 
     def cell(*cords)
       Cell.new(subject, *cords)
     end
 
-    describe 'board creation' do
+    describe 'universe creation' do
       it 'shouldnt have any cells' do 
         subject.should be_empty
       end
@@ -32,7 +32,7 @@ module Gol
     end
 
     describe 'checkig cell at any position' do 
-      it 'empty array for clear board' do
+      it 'empty array for clear universe' do
         subject.neighbours(1, 1).should be_empty
       end
       it 'should return 2 neighbours' do
@@ -43,24 +43,29 @@ module Gol
       end
     end
 
-    describe 'board size' do
-      it 'each board must have size, default 100x100' do
+    describe 'universe size' do
+      it 'each universe must have size, default 100x100' do
         subject.size.should == [100, 100]
       end
-      it 'should be posiible to create board with specified size' do
+      it 'should be posiible to create universe with specified size' do
         size = [10, 10]
-        Board.new(*size).size.should == size
+        Universe.new(*size).size.should == size
+      end
+      it 'should be possible to get size of each axis' do
+        u = Universe.new(4, 5)
+        u.x.should == 4
+        u.y.should == 5
       end
     end
 
-    describe 'infinite board' do
+    describe 'infinite universe' do
       it 'should create cells on infinite manner (101,102) becomes (1,2)' do
         c = cell(101, 102)
 
         subject.count.should == 1
         subject[1, 2].should == c
       end
-      it 'should change moved cell cords according to board size' do
+      it 'should change moved cell cords according to universe size' do
         c = cell(101, 102)
         c.x.should == 1
         c.y.should == 2
@@ -72,7 +77,7 @@ module Gol
         c.x.should == 99
         c.y.should == 99
       end
-      it 'should find neighbours on board edges' do
+      it 'should find neighbours on universe edges' do
         c0_0 = cell(0, 0)
         c0_1 = cell(0, 1)
         c0_99 = cell(0, 99)
@@ -86,6 +91,76 @@ module Gol
         c99_99 = cell(99, 99)
 
         c0_0.should have_neighbours([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
+      end
+    end
+
+    describe 'Universe#toggle' do
+      it 'should be possible to clreate new cell by toggling empty universe position' do
+        subject.count.should == 0
+
+        subject.toggle(0, 0)
+
+        subject.count.should == 1
+        subject[0, 0].should_not be_nil
+      end
+      it 'toggling should remove existing cell' do
+        cell(0, 0)
+        subject.count.should == 1
+
+        subject.toggle(0, 0)
+
+        subject.count.should == 0
+      end
+    end
+
+    describe 'Universe#tick' do
+      context 'repeated ticks' do
+        it 'blinker oscilator' do
+          pending
+          cell(1, 0)
+          cell(1, 1)
+          cell(1, 2)
+
+          30.times do |i|
+            subject.tick
+            p '===='
+            subject.each { |c| p c }
+            subject.count.should == 3
+          end
+        end
+      end
+      context 'view callbacks' do
+        let(:callback) { mock('callback') }
+
+        it 'shouldnt get any event' do
+          subject.tick
+        end
+        it 'should pass remove event to callback' do
+          cell(1, 1)
+          callback.should_receive(:remove).with(1, 1)
+          subject.tick(callback)
+        end
+        it 'should pass 2 remove events' do
+          cell(1, 1)
+          cell(2, 1)
+          
+          callback.should_receive(:remove).with(1, 1)
+          callback.should_receive(:remove).with(2, 1)
+
+          subject.tick(callback)
+        end
+        it 'should pass 2 remove and 2 create events to view' do
+          cell(1, 1)
+          cell(2, 1)
+          cell(3, 1)
+
+          callback.should_receive(:remove).with(1, 1)
+          callback.should_receive(:remove).with(3, 1)
+          callback.should_receive(:create).with(2, 0)
+          callback.should_receive(:create).with(2, 2)
+
+          subject.tick(callback)
+        end
       end
     end
 

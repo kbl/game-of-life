@@ -3,7 +3,7 @@ require 'gol/neighbourhood'
 require 'set'
 
 module Gol
-  class Board
+  class Universe
 
     STARVATION_COUNT = 2
     OVERCROUDED_COUNT = 3
@@ -12,43 +12,50 @@ module Gol
     include Enumerable
     include Neighbourhood
 
-    def initialize(size_x = 100, size_y = 100)
-      @size_x, @size_y = size_x, size_y
+    attr_reader :x, :y
 
-      @cells = Array.new(size_x)
-      (0..size_x).each do |column_index|
-        @cells[column_index] = Array.new(size_y)
+    def initialize(x = 100, y = 100)
+      @x, @y = x, y
+
+      @cells = Array.new(x)
+      (0..x).each do |column_index|
+        @cells[column_index] = Array.new(y)
       end
     end
 
     def size
-      [@size_x, @size_y]
+      [@x, @y]
     end
 
     def <<(cell)
-      cell.x %= @size_x
-      cell.y %= @size_y
+      cell.x %= @x
+      cell.y %= @y
 
       column_x = @cells[cell.x]
       column_x[cell.y] = cell
     end
 
     def [](x, y)
-      x %= @size_x
-      y %= @size_y
+      x %= @x
+      y %= @y
 
       column_x = @cells[x]
       column_x[y]
     end
 
-    def tick
+    def tick(callback = nil)
+      callback ||= NoOpCallback.new
+
       each do |cell|
         cell.dying if cell.neighbours.count < STARVATION_COUNT
         cell.dying if cell.neighbours.count > OVERCROUDED_COUNT
       end
-      reproduct
+      reproduct(callback)
       each do |cell|
-        cell.remove! if cell.dying?
+        if(cell.dying?)
+          cell.remove!
+          callback.remove(cell.x, cell.y)
+        end
       end
     end
 
@@ -78,9 +85,25 @@ module Gol
       end
     end
 
+    def toggle(x, y)
+      cell = self.[](x, y)
+      if(cell)
+        remove(cell)
+      else
+        Cell.new(self, x, y)
+      end
+    end
+
     private 
 
-    def reproduct
+    class NoOpCallback
+      def create(x, y)
+      end
+      def remove(x, y)
+      end
+    end
+
+    def reproduct(callback)
       cell_to_reproduction = Set.new
       each do |cell|
         cell.empty_neighbours.each do |cords|
@@ -89,6 +112,7 @@ module Gol
       end
       cell_to_reproduction.each do |cords|
         Cell.new(self, *cords)
+        callback.create(*cords)
       end
     end
 

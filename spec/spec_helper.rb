@@ -1,7 +1,9 @@
 require 'gol/cell'
-require 'gol/board'
+require 'gol/universe'
+require 'gol/gui/board'
 
 require 'rspec'
+require 'rspec/mocks'
 
 RSpec::Matchers.define :have_neighbours do |expected|
   match do |cell|
@@ -16,11 +18,14 @@ RSpec::Matchers.define :have_neighbours do |expected|
 end
 
 RSpec::Matchers.define :contain do |expected|
-  match do |board|
-    includes(board, expected)
+  match do |universe|
+    includes(universe, expected)
   end
 end
 
-def includes (board, expected)
-  expected & board.to_a == expected
+private 
+
+def includes (universe, expected)
+  expected & universe.to_a == expected
 end
+
