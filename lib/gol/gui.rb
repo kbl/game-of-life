@@ -2,50 +2,29 @@ $: << './..'
 
 require 'shoes'
 require 'gol/cell'
-require 'gol/board'
-
+require 'gol/universe'
 
 module Gol
+  Shoes.app(title: 'Game of life', width: 667, height: 667) do
 
+    @universe = Universe.new(50, 50)
 
-  Shoes.app do
+    @board = stack {
+      @universe.x.times do |x|
+        border_x = x * 3
+        previous_blocks_x = 10 * (x + 1)
 
-    stack {
-      10.times do |i|
-        border = i * 5
-        previous_blocks = 10 * (i + 1)
+        @universe.y.times do |y|
+          border_y = y * 3
+          previous_blocks_y = 10 * (y + 1)
 
-        rect(width: 10, 
-             left: previous_blocks + border, 
-             top: 10)
+          rect(width: 10, 
+               left: previous_blocks_x + border_x, 
+               top: previous_blocks_y + border_y,
+               fill: rgb(240, 240, 240),
+               stroke: rgb(200, 200, 200))
+        end
       end
-
-      
     }
-
-    every(1) do
-      clear
-      @margin ||= 20
-
-      dupa
-
-      @margin += 20
-    end
-
-    @board = create_board
-
-    def dupa
-      rect(width: 10, 
-        left: @margin, 
-        top: 40)
-    end
-
-    def create_board
-      board = Board.new
-      Cell.new(board, 1, 1)
-      Cell.new(board, 1, 2)
-      Cell.new(board, 1, 3)
-      board
-    end
   end
 end
