@@ -4,9 +4,35 @@ require 'shoes'
 require 'gol/cell'
 require 'gol/universe'
 
-
 module Gol
   module Gui
+
+    class Board
+      def initialize(universe, board)
+        @universe = universe
+        @board = board
+      end
+
+      def click(x, y)
+        if(cell = @universe[x, y])
+          cell.remove!
+        else
+          Cell.new(@universe, x, y)
+        end
+        @board[x, y].toggle
+      end
+    end
+
+    class Field
+      def initialize(shape)
+        @shape
+      end
+
+      def toggle
+        @shape.fill('black')
+      end
+    end
+
     Shoes.app(title: 'Game of life', width: 667, height: 687) do
 
       @size = 10
@@ -19,7 +45,6 @@ module Gol
 
         alert("#{cord_x} #{cord_y}")
       }
-
 
       @board = flow do
         @universe.x.times do |x|
