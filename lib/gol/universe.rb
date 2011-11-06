@@ -43,14 +43,19 @@ module Gol
       column_x[y]
     end
 
-    def tick
+    def tick(callback = nil)
+      callback ||= NoOpCallback.new
+
       each do |cell|
         cell.dying if cell.neighbours.count < STARVATION_COUNT
         cell.dying if cell.neighbours.count > OVERCROUDED_COUNT
       end
-      reproduct
+      reproduct(callback)
       each do |cell|
-        cell.remove! if cell.dying?
+        if(cell.dying?)
+          cell.remove!
+          callback.remove(cell.x, cell.y)
+        end
       end
     end
 
@@ -91,7 +96,14 @@ module Gol
 
     private 
 
-    def reproduct
+    class NoOpCallback
+      def create(x, y)
+      end
+      def remove(x, y)
+      end
+    end
+
+    def reproduct(callback)
       cell_to_reproduction = Set.new
       each do |cell|
         cell.empty_neighbours.each do |cords|
@@ -100,6 +112,7 @@ module Gol
       end
       cell_to_reproduction.each do |cords|
         Cell.new(self, *cords)
+        callback.create(*cords)
       end
     end
 

@@ -113,6 +113,28 @@ module Gol
       end
     end
 
+    describe 'view callback for tick' do
+      let(:callback) { mock('callback') }
+
+      it 'shouldnt get any event' do
+        subject.tick
+      end
+      it 'should pass remove event to callback' do
+        cell(1, 1)
+        callback.should_receive(:remove).with(1, 1)
+        subject.tick(callback)
+      end
+      it 'should pass many remove events' do
+        cell(1, 1)
+        cell(2, 1)
+        
+        callback.should_receive(:remove).with(1, 1)
+        callback.should_receive(:remove).with(2, 1)
+
+        subject.tick(callback)
+      end
+    end
+
     describe 'rules' do
       context 'rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population' do
         it 'should destroy cells with neighbourhood = 0' do

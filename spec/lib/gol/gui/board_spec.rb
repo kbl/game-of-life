@@ -26,6 +26,7 @@ module Gol
       end
       describe 'field toggling' do
         it 'should pass toggle event to universe' do
+          pending
           field = stub('field')
           field.stub(:toggle)
 
@@ -36,8 +37,9 @@ module Gol
           board.toggle(1, 2)
         end
         it 'should pass toggle event to field' do
+          pending
           field = mock('field')
-          field.should_receive(:toggle)
+          field.should_receive(:style)
 
           subject[1, 2] = field
 

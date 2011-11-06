@@ -27,11 +27,30 @@ module Gol
 
       def toggle(x, y)
         @universe.toggle(x, y)
-        @board[x][y].toggle
+        repaint(x, y)
       end
 
       def tick
-        @universe.tick
+        @universe.tick(self)
+      end
+
+      def repaint(x, y)
+        rect = @board[x][y]
+        if(@universe[x, y])
+          create(x, y)
+        else
+          remove(x, y)
+        end
+      end
+
+      def create(x, y)
+        rect = @board[x][y]
+        rect.style(fill: rgb(0, 0, 0))
+      end
+
+      def remove(x, y)
+        rect = @board[x][y]
+        rect.style(fill: rgb(255, 255, 255))
       end
     end
   end
