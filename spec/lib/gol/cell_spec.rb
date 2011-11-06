@@ -83,19 +83,5 @@ module Gol
       end
     end
 
-    describe 'empty neighbours' do
-      subject { Cell.new(1, 1) }
-
-      it 'should have 8 empty neighbours' do
-        subject.empty_neighbours.count.should == 8
-      end
-      it 'should have 3 empty neighbours (corner)' do
-        Cell.new.empty_neighbours.count.should == 3
-      end
-      it 'should have 5 empty neighbours (corner)' do
-        Cell.new(1, 0).empty_neighbours.count.should == 5
-      end
-    end
-
   end
 end

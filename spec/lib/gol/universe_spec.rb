@@ -21,6 +21,23 @@ module Gol
       end
     end
 
+    describe 'dead neighbours' do
+      subject { Universe.new }
+
+      it 'should have 8 dead neighbours' do
+        subject.toggle(1, 1)
+        subject.dead_neighbours(1, 1).size.should == 8
+      end
+      it 'should have 8 dead neighbours (corner)' do
+        subject.toggle(0, 0)
+        subject.dead_neighbours(0, 0).size.should == 8
+      end
+      it 'should have 8 dead neighbours (edge)' do
+        subject.toggle(1, 0)
+        subject.dead_neighbours(1, 0).size.should == 8
+      end
+    end
+
     describe 'cell access' do
       it 'should have access to cell at specified cords' do 
         cell = Cell.new

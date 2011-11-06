@@ -80,10 +80,19 @@ module Gol
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|
-        cell == @cells[y][x]
+        cell = self.[](*cords)
         alive << cell if cell.alive?
       end
       alive
+    end
+
+    def dead_neighbours(x, y)
+      dead = []
+      neighbours_each(x, y) do |cords|
+        cell = self.[](*cords)
+        dead << cell unless cell.alive?
+      end
+      dead
     end
 
     def toggle(x, y)
