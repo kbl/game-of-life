@@ -114,6 +114,21 @@ module Gol
     end
 
     describe 'Universe#tick' do
+      context 'repeated ticks' do
+        it 'blinker oscilator' do
+          pending
+          cell(1, 0)
+          cell(1, 1)
+          cell(1, 2)
+
+          30.times do |i|
+            subject.tick
+            p '===='
+            subject.each { |c| p c }
+            subject.count.should == 3
+          end
+        end
+      end
       context 'view callbacks' do
         let(:callback) { mock('callback') }
 
