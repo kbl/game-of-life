@@ -6,7 +6,7 @@ module Gol
     subject { Universe.new }
 
     def cell(*cords)
-      Cell.new(*cords)
+      subject.resurrect(*cords)
     end
 
     describe 'universe creation' do

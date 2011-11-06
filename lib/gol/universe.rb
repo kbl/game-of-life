@@ -61,6 +61,10 @@ module Gol
       end
     end
 
+    def resurrect(x, y)
+      self.[](x, y).resurrect
+    end
+
     def each
       @cells.each do |cell_column|
         cell_column.select(&:alive?).each do |cell|
@@ -78,7 +82,7 @@ module Gol
     end
 
     def resurrect(x, y)
-      self.[](x, y).alive
+      self.[](x, y).resurrect
     end
 
     def neighbours(x, y)
