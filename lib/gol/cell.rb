@@ -20,6 +20,10 @@ module Gol
       @alive = false
     end
 
+    def live
+      @alive = true
+    end
+
     def to_s
       "Cell[#{@x}, #{y}]"
     end

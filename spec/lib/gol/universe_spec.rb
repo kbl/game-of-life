@@ -21,7 +21,7 @@ module Gol
       end
     end
 
-    describe 'dead neighbours' do
+    describe 'Universei#dead_neighbours' do
       subject { Universe.new }
 
       it 'should have 8 dead neighbours' do
@@ -35,6 +35,45 @@ module Gol
       it 'should have 8 dead neighbours (edge)' do
         subject.toggle(1, 0)
         subject.dead_neighbours(1, 0).size.should == 8
+      end
+    end
+
+    describe 'Universe#neighbours' do
+      before :each do
+        @center = Cell.new(1, 1)
+      end
+
+      it 'should have one neighbour (0,0)' do
+        c = Cell.new(0, 0)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (0,1)' do
+        c = Cell.new(0, 1)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (0,2)' do
+        c = Cell.new(0, 2)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (1,0)' do
+        c = Cell.new(1, 0)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (1,2)' do
+        c = Cell.new(1, 2)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,0)' do
+        c = Cell.new(2, 0)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,1)' do
+        c = Cell.new(2, 1)
+        @center.should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,2)' do
+        c = Cell.new(2, 2)
+        @center.should have_neighbours(c)
       end
     end
 
