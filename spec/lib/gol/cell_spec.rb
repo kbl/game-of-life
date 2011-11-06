@@ -2,57 +2,56 @@ require 'spec_helper'
 
 module Gol
   describe Cell do
-
-    let(:universe) { Universe.new }
-
     describe 'neighbourhood' do
-      it 'sholuld create cell without any neighbours' do
-        cell = Cell.new(universe)
-        cell.neighbours.should be_empty
+      it 'should return array of neighbourhood cords' do
+        c = Cell.new(1, 1)
+        n = c.neighbours
+        n.size.should == 8
+        n.should == [[0, 1], [0, 2], [1, 2], [2, 2], [2, 1], [2, 0], [1, 0], [0, 0]]
       end
 
       context 'creating two cells' do
         before :each do
-          @center = Cell.new(universe, 1, 1)
+          @center = Cell.new(1, 1)
         end
 
         it 'should have one neighbour (0,0)' do
-          c = Cell.new(universe, 0, 0)
+          c = Cell.new(0, 0)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (0,1)' do
-          c = Cell.new(universe, 0, 1)
+          c = Cell.new(0, 1)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (0,2)' do
-          c = Cell.new(universe, 0, 2)
+          c = Cell.new(0, 2)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (1,0)' do
-          c = Cell.new(universe, 1, 0)
+          c = Cell.new(1, 0)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (1,2)' do
-          c = Cell.new(universe, 1, 2)
+          c = Cell.new(1, 2)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (2,0)' do
-          c = Cell.new(universe, 2, 0)
+          c = Cell.new(2, 0)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (2,1)' do
-          c = Cell.new(universe, 2, 1)
+          c = Cell.new(2, 1)
           @center.should have_neighbours(c)
         end
         it 'should have one neighbour (2,2)' do
-          c = Cell.new(universe, 2, 2)
+          c = Cell.new(2, 2)
           @center.should have_neighbours(c)
         end
       end
     end
 
     describe 'cell creation' do
-      subject { Cell.new(universe, 1, 2) }
+      subject { Cell.new(1, 2) }
 
       it 'should create new cell at given location x' do
         subject.x.should == 1
@@ -61,7 +60,7 @@ module Gol
         subject.y.should == 2
       end
       it 'cell created without any cords should have position 0,0' do
-        cell = Cell.new(universe)
+        cell = Cell.new
         cell.x.should == 0
         cell.y.should == 0
       end
@@ -85,16 +84,16 @@ module Gol
     end
 
     describe 'empty neighbours' do
-      subject { Cell.new(universe, 1, 1) }
+      subject { Cell.new(1, 1) }
 
       it 'should have 8 empty neighbours' do
         subject.empty_neighbours.count.should == 8
       end
       it 'should have 3 empty neighbours (corner)' do
-        Cell.new(universe).empty_neighbours.count.should == 3
+        Cell.new.empty_neighbours.count.should == 3
       end
       it 'should have 5 empty neighbours (corner)' do
-        Cell.new(universe, 1, 0).empty_neighbours.count.should == 5
+        Cell.new(1, 0).empty_neighbours.count.should == 5
       end
     end
 

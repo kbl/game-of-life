@@ -6,7 +6,7 @@ module Gol
     subject { Universe.new }
 
     def cell(*cords)
-      Cell.new(subject, *cords)
+      Cell.new(*cords)
     end
 
     describe 'universe creation' do
@@ -23,7 +23,7 @@ module Gol
 
     describe 'cell access' do
       it 'should have access to cell at specified cords' do 
-        cell = Cell.new(subject)
+        cell = Cell.new
         subject[0, 0].should == cell
       end
       it 'should return nil for unknown cell' do
@@ -123,8 +123,6 @@ module Gol
 
           30.times do |i|
             subject.tick
-            p '===='
-            subject.each { |c| p c }
             subject.count.should == 3
           end
         end

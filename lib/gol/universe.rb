@@ -17,9 +17,13 @@ module Gol
     def initialize(x = 100, y = 100)
       @x, @y = x, y
 
-      @cells = Array.new(x)
-      (0..x).each do |column_index|
-        @cells[column_index] = Array.new(y)
+      @cells = []
+      (0..@y).each do |y|
+        row = []
+        @cells << row
+        (0..@x).each do |x|
+          row << Cell.new(x, y)
+        end
       end
     end
 
@@ -27,52 +31,46 @@ module Gol
       [@x, @y]
     end
 
-    def <<(cell)
-      cell.x %= @x
-      cell.y %= @y
-
-      column_x = @cells[cell.x]
-      column_x[cell.y] = cell
-    end
-
     def [](x, y)
       x %= @x
       y %= @y
 
-      column_x = @cells[x]
-      column_x[y]
+      @cells[y][x]
     end
 
     def tick(callback = nil)
       callback ||= NoOpCallback.new
 
+      toggle_cords = []
+
       each do |cell|
-        cell.dying if cell.neighbours.count < STARVATION_COUNT
-        cell.dying if cell.neighbours.count > OVERCROUDED_COUNT
+        n = neighbours(cell.x, cell.y)
+
+        to_many_neighbours = n.count > OVERCROUDED_COUNT
+        to_few_neighbours = n.count < STARVATION_COUNT
+        
+        toggle_cords << [cell.x, cell.y] if (to_many_neighbours || to_few_neighbours)
       end
-      reproduct(callback)
-      each do |cell|
-        if(cell.dying?)
-          cell.remove!
-          callback.remove(cell.x, cell.y)
-        end
+
+      toggle_cords += reproduct(callback)
+
+      toggle_cords.each do |cords|
+        self.[](*cors).toggle
+        # TODO
+        callback.remove(cell.x, cell.y)
       end
     end
 
     def each
-      @cells.reject(&:nil?).each do |cell_column|
-        cell_column.reject(&:nil?).each do |cell|
+      @cells.each do |cell_column|
+        cell_column.select(&:alive?).each do |cell|
           yield(cell)
         end
       end
     end
 
-    def remove(cell)
-      @cells.reject(&:nil?).each do |cell_column|
-        cell_column.reject(&:nil?).each do |c|
-          cell_column.delete(cell) if c == cell
-        end
-      end
+    def remove(x, y)
+      @cell[x][y].die
     end
 
     def empty?
@@ -103,14 +101,14 @@ module Gol
 
     def reproduct(callback)
       cell_to_reproduction = Set.new
+
       each do |cell|
-        cell.empty_neighbours.each do |cords|
-          cell_to_reproduction << cords if neighbours(*cords).count == REPRODUCTION_COUNT
+        neighbours_each(cell.x, cell.y) do |cords|
+          self.[](*cords).alive?
+          cell.empty_neighbours.each do |cords|
+            cell_to_reproduction << cords if neighbours(*cords).count == REPRODUCTION_COUNT
+          end
         end
-      end
-      cell_to_reproduction.each do |cords|
-        Cell.new(self, *cords)
-        callback.create(*cords)
       end
     end
 

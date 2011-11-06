@@ -1,14 +1,15 @@
-require 'gol/universe'
 require 'gol/neighbourhood'
 
 module Gol
   class Cell
 
+    include Neighbourhood
+
     attr_accessor :x, :y
 
     def initialize(x = 0, y = 0)
       @x, @y = x, y
-      @alive = true
+      @alive = false
     end
 
     def alive?
@@ -27,5 +28,12 @@ module Gol
       @alive = !@alive
     end
 
+    def neighbours
+      n = []
+      neighbours_each do |cords|
+        n << cords
+      end
+      n
+    end
   end
 end
