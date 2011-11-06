@@ -1,7 +1,6 @@
 module Gol
   module Gui
     class Field
-
       attr_reader :shape
 
       def initialize(shape)
@@ -9,7 +8,7 @@ module Gol
       end
 
       def toggle
-        @shape.fill('black')
+        @spape.fill('black')
       end
     end
   end

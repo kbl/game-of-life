@@ -16,6 +16,7 @@ module Gol
         cord_y = (y - @size) / (@size + @margin)
 
         alert("#{cord_x} #{cord_y}")
+        @board[cord_x, cord_y].toggle
       }
 
       flow do
