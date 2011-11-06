@@ -32,7 +32,6 @@ module Gol
 
       def tick
         @universe.tick
-        
       end
     end
   end

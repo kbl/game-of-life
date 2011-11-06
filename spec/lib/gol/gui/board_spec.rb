@@ -5,6 +5,13 @@ module Gol
     describe Board do
       subject { Board.new }
 
+      let(:mock_universe) do 
+        u = mock('universe')
+        u.stub(:x).and_return(10)
+        u.stub(:y).and_return(10)
+        u
+      end
+
       describe 'board creation' do
         it 'should be possible to create board with default size 50x50' do
           subject.x.should == 50
@@ -17,21 +24,15 @@ module Gol
           board.y.should == 30
         end
       end
-
       describe 'field toggling' do
         it 'should pass toggle event to universe' do
-          universe = mock('universe')
-          universe.stub(:x).and_return(10)
-          universe.stub(:y).and_return(10)
-
-          universe.should_receive(:toggle).with(1, 2)
-
           field = stub('field')
           field.stub(:toggle)
 
-          board = Board.new(universe)
+          board = Board.new(mock_universe)
           board[1, 2] = field
 
+          mock_universe.should_receive(:toggle).with(1, 2)
           board.toggle(1, 2)
         end
         it 'should pass toggle event to field' do
@@ -41,6 +42,13 @@ module Gol
           subject[1, 2] = field
 
           subject.toggle(1, 2)
+        end
+      end
+      describe 'tick for board' do
+        it 'tick event should be passed to universe' do
+          board = Board.new(mock_universe)
+          mock_universe.should_receive(:tick)
+          board.tick
         end
       end
     end
