@@ -51,6 +51,11 @@ module Gol
         size = [10, 10]
         Universe.new(*size).size.should == size
       end
+      it 'should be possible to get size of each axis' do
+        u = Universe.new(4, 5)
+        u.x.should == 4
+        u.y.should == 5
+      end
     end
 
     describe 'infinite universe' do

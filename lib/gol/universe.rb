@@ -12,30 +12,32 @@ module Gol
     include Enumerable
     include Neighbourhood
 
-    def initialize(size_x = 100, size_y = 100)
-      @size_x, @size_y = size_x, size_y
+    attr_reader :x, :y
 
-      @cells = Array.new(size_x)
-      (0..size_x).each do |column_index|
-        @cells[column_index] = Array.new(size_y)
+    def initialize(x = 100, y = 100)
+      @x, @y = x, y
+
+      @cells = Array.new(x)
+      (0..x).each do |column_index|
+        @cells[column_index] = Array.new(y)
       end
     end
 
     def size
-      [@size_x, @size_y]
+      [@x, @y]
     end
 
     def <<(cell)
-      cell.x %= @size_x
-      cell.y %= @size_y
+      cell.x %= @x
+      cell.y %= @y
 
       column_x = @cells[cell.x]
       column_x[cell.y] = cell
     end
 
     def [](x, y)
-      x %= @size_x
-      y %= @size_y
+      x %= @x
+      y %= @y
 
       column_x = @cells[x]
       column_x[y]
