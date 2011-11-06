@@ -77,13 +77,17 @@ module Gol
       end
     end
 
-    describe 'cell access' do
+    describe 'Universe#[]' do
       it 'should have access to cell at specified cords' do 
-        cell = Cell.new
-        subject[0, 0].should == cell
+        subject[0, 0].should_not be_nil
       end
-      it 'should return nil for unknown cell' do
-        subject[123, 12].should be_nil
+      it 'sholuld return cell with proper cords' do
+        subject[0, 1].x.should == 0
+        subject[0, 1].y.should == 1
+      end
+      it 'cords should be counded with %' do
+        subject[123, 12].x.should == 23
+        subject[123, 12].y.should == 12
       end
     end
 
