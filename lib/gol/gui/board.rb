@@ -10,15 +10,6 @@ module Gol
         @universe.y.times { @board << [] }
       end
 
-      def click(x, y)
-        if(cell = @universe[x, y])
-          cell.remove!
-        else
-          Cell.new(@universe, x, y)
-        end
-        @board[x, y].toggle
-      end
-
       def x
         @universe.x
       end
@@ -30,6 +21,7 @@ module Gol
       def []=(x, y, value)
         @board[x][y] = Field.new(value)
       end
+
       def [](x, y)
         @board[x][y]
       end
