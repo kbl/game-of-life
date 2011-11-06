@@ -15,8 +15,7 @@ module Gol
         cord_x = (x - @size) / (@size + @margin)
         cord_y = (y - @size) / (@size + @margin)
 
-        alert("#{cord_x} #{cord_y}")
-        @board[cord_x, cord_y].toggle
+        @board.toggle(cord_x, cord_y)
       }
 
       flow do
@@ -35,6 +34,12 @@ module Gol
                  stroke: rgb(200, 200, 200))
             @board[x, y] = rectangle
           end
+        end
+      end
+      
+      button 'start' do
+        every(1) do
+          @board.tick
         end
       end
     end

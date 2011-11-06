@@ -29,6 +29,11 @@ module Gol
         @universe.toggle(x, y)
         @board[x][y].toggle
       end
+
+      def tick
+        @universe.tick
+
+      end
     end
   end
 end
