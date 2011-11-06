@@ -80,6 +80,15 @@ module Gol
       end
     end
 
+    def toggle(x, y)
+      cell = self.[](x, y)
+      if(cell)
+        remove(cell)
+      else
+        Cell.new(self, x, y)
+      end
+    end
+
     private 
 
     def reproduct

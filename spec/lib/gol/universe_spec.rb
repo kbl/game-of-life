@@ -94,6 +94,25 @@ module Gol
       end
     end
 
+    describe 'toggling cells' do
+      it 'should be possible to clreate new cell by toggling empty universe position' do
+        subject.count.should == 0
+
+        subject.toggle(0, 0)
+
+        subject.count.should == 1
+        subject[0, 0].should_not be_nil
+      end
+      it 'toggling should remove existing cell' do
+        cell(0, 0)
+        subject.count.should == 1
+
+        subject.toggle(0, 0)
+
+        subject.count.should == 0
+      end
+    end
+
     describe 'rules' do
       context 'rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population' do
         it 'should destroy cells with neighbourhood = 0' do
