@@ -68,13 +68,18 @@ module Gol
     end
 
     describe 'cell live' do
-      subject { Cell.new(universe) }
+      subject { Cell.new }
 
       it 'newly created cell should be alive' do
         subject.should be_alive
       end
       it 'cell marked as dying shouldnt be alive' do
-        subject.dying
+        subject.die
+        subject.should_not be_alive
+      end
+      it 'toggle should chagne cell state' do
+        subject.should be_alive
+        subject.toggle
         subject.should_not be_alive
       end
     end

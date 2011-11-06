@@ -16,15 +16,10 @@ module Gol
     ]
 
     def neighbours_each(cord_x = @x, cord_y = @y)
-      neighbours = []
       NEIGHBOURS.each do |x, y|
         cords = [cord_x + x, cord_y + y]
-
-        returned = yield cords
-
-        neighbours << returned if returned
+        yield cords
       end
-      neighbours
     end
 
   end
