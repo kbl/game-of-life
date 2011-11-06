@@ -7,13 +7,7 @@ require 'rspec/mocks'
 
 RSpec::Matchers.define :have_neighbours do |expected|
   match do |actual|
-    if expected.respond_to?(:each)
-      actual.size.should == expected.size
-      actual.cords.should == expected
-    else
-      cell.x.should == expected.x
-      cell.y.should == expected.y
-    end
+    actual[0].cords.should == expected
   end
 end
 

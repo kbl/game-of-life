@@ -49,31 +49,31 @@ module Gol
       end
       it 'should have one neighbour (0,1)' do
         c = cell(0, 1)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (0,2)' do
         c = cell(0, 2)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (1,0)' do
         c = cell(1, 0)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (1,2)' do
         c = cell(1, 2)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (2,0)' do
         c = cell(2, 0)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (2,1)' do
         c = cell(2, 1)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (2,2)' do
         c = cell(2, 2)
-        @center.should have_neighbours(c)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
     end
 
