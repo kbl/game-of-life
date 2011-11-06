@@ -94,7 +94,7 @@ module Gol
       end
     end
 
-    describe 'toggling cells' do
+    describe 'Universe#toggle' do
       it 'should be possible to clreate new cell by toggling empty universe position' do
         subject.count.should == 0
 
@@ -113,37 +113,39 @@ module Gol
       end
     end
 
-    describe 'view callback for tick' do
-      let(:callback) { mock('callback') }
+    describe 'Universe#tick' do
+      context 'view callbacks' do
+        let(:callback) { mock('callback') }
 
-      it 'shouldnt get any event' do
-        subject.tick
-      end
-      it 'should pass remove event to callback' do
-        cell(1, 1)
-        callback.should_receive(:remove).with(1, 1)
-        subject.tick(callback)
-      end
-      it 'should pass 2 remove events' do
-        cell(1, 1)
-        cell(2, 1)
-        
-        callback.should_receive(:remove).with(1, 1)
-        callback.should_receive(:remove).with(2, 1)
+        it 'shouldnt get any event' do
+          subject.tick
+        end
+        it 'should pass remove event to callback' do
+          cell(1, 1)
+          callback.should_receive(:remove).with(1, 1)
+          subject.tick(callback)
+        end
+        it 'should pass 2 remove events' do
+          cell(1, 1)
+          cell(2, 1)
+          
+          callback.should_receive(:remove).with(1, 1)
+          callback.should_receive(:remove).with(2, 1)
 
-        subject.tick(callback)
-      end
-      it 'should pass 2 remove and 2 create events to view' do
-        cell(1, 1)
-        cell(2, 1)
-        cell(3, 1)
+          subject.tick(callback)
+        end
+        it 'should pass 2 remove and 2 create events to view' do
+          cell(1, 1)
+          cell(2, 1)
+          cell(3, 1)
 
-        callback.should_receive(:remove).with(1, 1)
-        callback.should_receive(:remove).with(3, 1)
-        callback.should_receive(:create).with(2, 0)
-        callback.should_receive(:create).with(2, 2)
+          callback.should_receive(:remove).with(1, 1)
+          callback.should_receive(:remove).with(3, 1)
+          callback.should_receive(:create).with(2, 0)
+          callback.should_receive(:create).with(2, 2)
 
-        subject.tick(callback)
+          subject.tick(callback)
+        end
       end
     end
 

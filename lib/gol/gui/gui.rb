@@ -42,6 +42,10 @@ module Gol
           @board.tick
         end
       end
+
+      button 'krok' do
+        @board.tick
+      end
     end
   end
 end
