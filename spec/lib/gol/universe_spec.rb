@@ -124,12 +124,24 @@ module Gol
         callback.should_receive(:remove).with(1, 1)
         subject.tick(callback)
       end
-      it 'should pass many remove events' do
+      it 'should pass 2 remove events' do
         cell(1, 1)
         cell(2, 1)
         
         callback.should_receive(:remove).with(1, 1)
         callback.should_receive(:remove).with(2, 1)
+
+        subject.tick(callback)
+      end
+      it 'should pass 2 remove and 2 create events to view' do
+        cell(1, 1)
+        cell(2, 1)
+        cell(3, 1)
+
+        callback.should_receive(:remove).with(1, 1)
+        callback.should_receive(:remove).with(3, 1)
+        callback.should_receive(:create).with(2, 0)
+        callback.should_receive(:create).with(2, 2)
 
         subject.tick(callback)
       end
