@@ -34,13 +34,13 @@ module Gol
         subject.should_not be_alive
       end
       it 'cell marked as die shouldnt be alive' do
-        subject.die
+        subject.pulverize
         subject.should_not be_alive
       end
       it 'cell marked as live shouldnt be alive' do
-        subject.die
+        subject.pulverize
         subject.should_not be_alive
-        subject.live
+        subject.resurrect
         subject.should be_alive
       end
       it 'toggle should chagne cell state' do

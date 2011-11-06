@@ -16,11 +16,11 @@ module Gol
       @alive
     end
 
-    def die
+    def pulverize
       @alive = false
     end
 
-    def live
+    def resurrect
       @alive = true
     end
 
