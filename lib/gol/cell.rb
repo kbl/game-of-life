@@ -12,6 +12,10 @@ module Gol
       @alive = false
     end
 
+    def cords
+      [@x, @y]
+    end
+
     def alive?
       @alive
     end

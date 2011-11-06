@@ -81,10 +81,6 @@ module Gol
       count == 0
     end
 
-    def resurrect(x, y)
-      self.[](x, y).resurrect
-    end
-
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|

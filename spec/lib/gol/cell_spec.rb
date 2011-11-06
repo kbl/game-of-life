@@ -50,5 +50,10 @@ module Gol
       end
     end
 
+    describe 'Cell#cords' do
+      it 'should properly show cell cords' do
+        Cell.new(3, 5).cords.should == [3, 5]
+      end
+    end
   end
 end

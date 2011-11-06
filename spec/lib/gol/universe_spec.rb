@@ -5,8 +5,9 @@ module Gol
 
     subject { Universe.new }
 
-    def cell(*cords)
-      subject.resurrect(*cords)
+    def cell(x, y)
+      subject.resurrect(x, y)
+      [x, y]
     end
 
     describe 'universe creation' do
@@ -22,8 +23,6 @@ module Gol
     end
 
     describe 'Universei#dead_neighbours' do
-      subject { Universe.new }
-
       it 'should have 8 dead neighbours' do
         subject.toggle(1, 1)
         subject.dead_neighbours(1, 1).size.should == 8
@@ -40,39 +39,40 @@ module Gol
 
     describe 'Universe#neighbours' do
       before :each do
-        @center = Cell.new(1, 1)
+        @center = [1, 1]
+        subject.resurrect(*@center)
       end
 
       it 'should have one neighbour (0,0)' do
-        c = Cell.new(0, 0)
-        @center.should have_neighbours(c)
+        c = cell(0, 0)
+        subject.neighbours(*@center).should have_neighbours(c)
       end
       it 'should have one neighbour (0,1)' do
-        c = Cell.new(0, 1)
+        c = cell(0, 1)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (0,2)' do
-        c = Cell.new(0, 2)
+        c = cell(0, 2)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (1,0)' do
-        c = Cell.new(1, 0)
+        c = cell(1, 0)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (1,2)' do
-        c = Cell.new(1, 2)
+        c = cell(1, 2)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,0)' do
-        c = Cell.new(2, 0)
+        c = cell(2, 0)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,1)' do
-        c = Cell.new(2, 1)
+        c = cell(2, 1)
         @center.should have_neighbours(c)
       end
       it 'should have one neighbour (2,2)' do
-        c = Cell.new(2, 2)
+        c = cell(2, 2)
         @center.should have_neighbours(c)
       end
     end

@@ -6,13 +6,13 @@ require 'rspec'
 require 'rspec/mocks'
 
 RSpec::Matchers.define :have_neighbours do |expected|
-  match do |cell|
+  match do |actual|
     if expected.respond_to?(:each)
-      cell.neighbours.count.should == expected.size
-      includes(cell.neighbours, expected)
+      actual.size.should == expected.size
+      actual.cords.should == expected
     else
-      cell.neighbours.count.should == 1
-      cell.neighbours[0].should == expected
+      cell.x.should == expected.x
+      cell.y.should == expected.y
     end
   end
 end
