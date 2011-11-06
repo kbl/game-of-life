@@ -15,6 +15,12 @@ module Gol
         board.x.should == 20
         board.y.should == 30
       end
+      it 'assigned shape should be packed in field instance' do
+        subject[1, 2] = 'test_shape'
+        field = subject[1, 2]
+        field.should be_a Field
+        field.shape.should == 'test_shape'
+      end
     end
   end
 end

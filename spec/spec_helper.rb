@@ -1,6 +1,7 @@
 require 'gol/cell'
 require 'gol/universe'
 require 'gol/gui/board'
+require 'gol/gui/field'
 
 require 'rspec'
 
