@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 module Gol
-  describe Board do
+  describe Universe do
 
-    subject { Board.new }
+    subject { Universe.new }
 
     def cell(*cords)
       Cell.new(subject, *cords)
     end
 
-    describe 'board creation' do
+    describe 'universe creation' do
       it 'shouldnt have any cells' do 
         subject.should be_empty
       end
@@ -32,7 +32,7 @@ module Gol
     end
 
     describe 'checkig cell at any position' do 
-      it 'empty array for clear board' do
+      it 'empty array for clear universe' do
         subject.neighbours(1, 1).should be_empty
       end
       it 'should return 2 neighbours' do
@@ -43,24 +43,24 @@ module Gol
       end
     end
 
-    describe 'board size' do
-      it 'each board must have size, default 100x100' do
+    describe 'universe size' do
+      it 'each universe must have size, default 100x100' do
         subject.size.should == [100, 100]
       end
-      it 'should be posiible to create board with specified size' do
+      it 'should be posiible to create universe with specified size' do
         size = [10, 10]
-        Board.new(*size).size.should == size
+        Universe.new(*size).size.should == size
       end
     end
 
-    describe 'infinite board' do
+    describe 'infinite universe' do
       it 'should create cells on infinite manner (101,102) becomes (1,2)' do
         c = cell(101, 102)
 
         subject.count.should == 1
         subject[1, 2].should == c
       end
-      it 'should change moved cell cords according to board size' do
+      it 'should change moved cell cords according to universe size' do
         c = cell(101, 102)
         c.x.should == 1
         c.y.should == 2
@@ -72,7 +72,7 @@ module Gol
         c.x.should == 99
         c.y.should == 99
       end
-      it 'should find neighbours on board edges' do
+      it 'should find neighbours on universe edges' do
         c0_0 = cell(0, 0)
         c0_1 = cell(0, 1)
         c0_99 = cell(0, 99)

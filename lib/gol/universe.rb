@@ -3,7 +3,7 @@ require 'gol/neighbourhood'
 require 'set'
 
 module Gol
-  class Board
+  class Universe
 
     STARVATION_COUNT = 2
     OVERCROUDED_COUNT = 3

@@ -1,4 +1,4 @@
-require 'gol/board'
+require 'gol/universe'
 require 'gol/neighbourhood'
 
 module Gol
@@ -6,19 +6,19 @@ module Gol
 
     include Neighbourhood
 
-    attr_reader :board
+    attr_reader :universe
     attr_accessor :x, :y
 
-    def initialize(board, x = 0, y = 0)
+    def initialize(universe, x = 0, y = 0)
       @x, @y = x, y
-      @board = board
+      @universe = universe
       @dying = false
-      board << self
+      universe << self
     end
 
     def neighbours
       neighbours_each do |cords|
-        board[*cords]
+        universe[*cords]
       end
     end
 
@@ -27,7 +27,7 @@ module Gol
         cords_lower_than_zero = cords.any? { |axis| axis < 0 }
 
         unless(cords_lower_than_zero)
-          neighbour = board[*cords]
+          neighbour = universe[*cords]
           cords unless neighbour
         end
       end
@@ -46,7 +46,7 @@ module Gol
     end
 
     def remove!
-      @board.remove(self)
+      @universe.remove(self)
     end
 
     def to_s
