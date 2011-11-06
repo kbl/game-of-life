@@ -17,9 +17,7 @@ module Gol
       end
       it 'assigned shape should be packed in field instance' do
         subject[1, 2] = 'test_shape'
-        field = subject[1, 2]
-        field.should be_a Field
-        field.shape.should == 'test_shape'
+        subject[1, 2].should == 'test_shape'
       end
     end
   end

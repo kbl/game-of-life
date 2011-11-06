@@ -1,5 +1,4 @@
 require 'gol/universe'
-require 'gol/gui/field'
 
 module Gol
   module Gui
@@ -19,11 +18,16 @@ module Gol
       end
 
       def []=(x, y, value)
-        @board[x][y] = Field.new(value)
+        @board[x][y] = value
       end
 
       def [](x, y)
         @board[x][y]
+      end
+
+      def toggle(x, y)
+        @universe.toggle(x, y)
+        @board[x][y].toggle
       end
     end
   end
