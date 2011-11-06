@@ -7,7 +7,7 @@ module Gol
 
     def cell(x, y)
       subject.resurrect(x, y)
-      [x, y]
+      subject[x, y]
     end
 
     describe 'universe creation' do
@@ -123,7 +123,7 @@ module Gol
         c = cell(101, 102)
 
         subject.count.should == 1
-        subject[1, 2].should == c
+        subject[1, 2].should == c.cords
       end
       it 'should change moved cell cords according to universe size' do
         c = cell(101, 102)

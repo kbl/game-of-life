@@ -7,8 +7,7 @@ require 'rspec/mocks'
 
 RSpec::Matchers.define :have_neighbours do |expected|
   match do |actual|
-    p expected
-    actual[0].cords.should == expected
+    actual[0].should == expected
   end
 end
 
