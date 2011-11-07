@@ -26,14 +26,18 @@ module Gol
       end
       describe 'field toggling' do
         it 'should pass toggle event to universe' do
-          pending
           field = stub('field')
           field.stub(:toggle)
 
           board = Board.new(mock_universe)
+          def board.rgb(r, g, b)
+            'rgb'
+          end
           board[1, 2] = field
 
+          mock_universe.stub(:[]).and_return(Cell.new(1, 2))
           mock_universe.should_receive(:toggle).with(1, 2)
+          field.should_receive(:style).with(fill: 'rgb')
           board.toggle(1, 2)
         end
         it 'should pass toggle event to field' do
