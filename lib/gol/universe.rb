@@ -43,13 +43,13 @@ module Gol
 
       toggle_cords = []
 
-      each do |cell|
-        n = neighbours(cell.x, cell.y)
+      each do |cords|
+        n = neighbours(*cords)
 
         to_many_neighbours = n.count > OVERCROUDED_COUNT
         to_few_neighbours = n.count < STARVATION_COUNT
         
-        toggle_cords << [cell.x, cell.y] if (to_many_neighbours || to_few_neighbours)
+        toggle_cords << cords if (to_many_neighbours || to_few_neighbours)
       end
 
       toggle_cords += reproduct
@@ -67,7 +67,7 @@ module Gol
     def each
       (0..@y).each do |y|
         (0..@x).each do |x|
-          yield([x, y]) if self.[](x, y)
+          yield([x, y]) if @cells[y][x]
         end
       end
     end
@@ -83,8 +83,8 @@ module Gol
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|
-        cell = self.[](*cords)
-        alive << cell if cell.alive?
+        cell = @cells[cords[1]][cords[0]]
+        alive << cords if cell
       end
       alive
     end
@@ -92,14 +92,14 @@ module Gol
     def dead_neighbours(x, y)
       dead = []
       neighbours_each(x, y) do |cords|
-        cell = self.[](*cords)
-        dead << cell unless cell.alive?
+        cell = @cells[cords[1]][cords[0]]
+        dead << cords unless cell
       end
       dead
     end
 
     def toggle(x, y)
-      self.[](x, y).toggle
+      @cell[y][x] = !@cell[y][x]
     end
 
     private 
