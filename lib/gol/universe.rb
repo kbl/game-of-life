@@ -55,7 +55,7 @@ module Gol
       toggle_cords += reproduct
 
       toggle_cords.each do |cords|
-        self.[](*cords).toggle
+        toggle(*cords)
         callback.repaint(*cords)
       end
     end
@@ -73,7 +73,7 @@ module Gol
     end
 
     def remove(x, y)
-      @cell[x][y].die
+      self.[](x, y).die
     end
 
     def empty?
@@ -99,7 +99,7 @@ module Gol
     end
 
     def toggle(x, y)
-      @cells[y][x].toggle
+      self.[](x, y).toggle
     end
 
     private 
