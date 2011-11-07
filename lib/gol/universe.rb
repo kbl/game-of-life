@@ -59,9 +59,9 @@ module Gol
     end
 
     def each
-      (0..@y).each do |y|
-        (0..@x).each do |x|
-          yield([x, y]) if @cells[y][x]
+      @cells.each_with_index do |column, y|
+        column.each_with_index do |cell, x|
+          yield([x, y]) if cell
         end
       end
     end
