@@ -81,6 +81,10 @@ module Gol
       it 'should have access to cell at specified cords' do 
         subject[0, 0].should_not be_nil
       end
+      it 'cords should be counded with %' do
+        subject.resurrect(123, 12)
+        subject[123, 12].should be_true
+      end
     end
 
     describe 'checkig cell at any position' do 
@@ -112,22 +116,15 @@ module Gol
 
     describe 'infinite universe' do
       it 'should create cells on infinite manner (101,102) becomes (1,2)' do
-        c = cell(101, 102)
+        cell(101, 102)
 
         subject.count.should == 1
-        subject[1, 2].should == c
-      end
-      it 'should change moved cell cords according to universe size' do
-        c = cell(101, 102)
-        c.x.should == 1
-        c.y.should == 2
+        subject[1, 2].should be_true
       end
       it 'should be possible to put cell on borders - edge case' do
-        c = cell(99, 99)
+        cell(99, 99)
 
-        subject[99, 99].should == c
-        c.x.should == 99
-        c.y.should == 99
+        subject[99, 99].should be_true
       end
       it 'should find neighbours on universe edges' do
         c0_0 = cell(0, 0)
@@ -153,7 +150,7 @@ module Gol
         subject.toggle(0, 0)
 
         subject.count.should == 1
-        subject[0, 0].should_not be_nil
+        subject[0, 0].should be_true
       end
       it 'toggling should remove existing cell' do
         cell(0, 0)

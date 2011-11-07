@@ -32,16 +32,12 @@ module Gol
     end
 
     def [](x, y)
-      x %= @x
-      y %= @y
-
+      x, y = normalize(x, y)
       @cells[y][x]
     end
 
     def []=(x, y, value)
-      x %= @x
-      y %= @y
-
+      x, y = normalize(x, y)
       @cells[y][x] = value
     end
 
@@ -90,7 +86,7 @@ module Gol
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|
-        alive << cords if self.[](*cords)
+        alive << normalize(*cords) if self.[](*cords)
       end
       alive
     end
@@ -98,7 +94,7 @@ module Gol
     def dead_neighbours(x, y)
       dead = []
       neighbours_each(x, y) do |cords|
-        dead << cords unless self.[](*cords)
+        dead << normalize(*cords) unless self.[](*cords)
       end
       dead
     end
@@ -109,6 +105,10 @@ module Gol
 
     private
 
+    def normalize(x, y)
+      [x % @x, y % @y]
+    end
+
     class NoOpCallback
       def repaint(x, y)
       end
@@ -117,10 +117,10 @@ module Gol
     def reproduct
       cell_to_reproduction = Set.new
 
-      each do |cell|
-        dead_neighbours(*cell.cords).each do |dead_cell|
-          n = neighbours(*dead_cell.cords)
-          cell_to_reproduction << dead_cell.cords if n.size == REPRODUCTION_COUNT
+      each do |cords|
+        dead_neighbours(*cords).each do |dead_cords|
+          n = neighbours(*dead_cords)
+          cell_to_reproduction << normalize(*dead_cords) if n.size == REPRODUCTION_COUNT
         end
       end
 
