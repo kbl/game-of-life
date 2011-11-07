@@ -35,7 +35,7 @@ module Gol
           end
           board[1, 2] = field
 
-          mock_universe.stub(:[]).and_return(Cell.new(1, 2))
+          mock_universe.stub(:[]).and_return([1, 2])
           mock_universe.should_receive(:toggle).with(1, 2)
           field.should_receive(:style).with(fill: '255 255 255')
           board.toggle(1, 2)

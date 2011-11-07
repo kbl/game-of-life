@@ -1,4 +1,3 @@
-require 'gol/cell'
 require 'gol/neighbourhood'
 require 'set'
 
@@ -100,9 +99,7 @@ module Gol
     end
 
     def toggle(x, y)
-      x, y = normalize(x, y)
-      @cells[y][x] = !@cells[y][x]
-      #self.[]=(x, y, self.[](x, y))
+      self.[]=(x, y, !self.[](x, y))
     end
 
     private

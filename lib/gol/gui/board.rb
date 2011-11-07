@@ -36,7 +36,7 @@ module Gol
 
       def repaint(x, y)
         rect = @board[x][y]
-        if(@universe[x, y].alive?)
+        if(@universe[x, y])
           rect.style(fill: rgb(0, 0, 0))
         else
           rect.style(fill: rgb(255, 255, 255))
