@@ -56,7 +56,7 @@ module Gol
 
       toggle_cords.each do |cords|
         self.[](*cords).toggle
-        callback.toggle(*cords)
+        callback.repaint(*cords)
       end
     end
 
@@ -105,7 +105,7 @@ module Gol
     private 
 
     class NoOpCallback
-      def toggle(x, y)
+      def repaint(x, y)
       end
     end
 

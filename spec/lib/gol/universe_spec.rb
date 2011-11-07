@@ -194,15 +194,15 @@ module Gol
         end
         it 'should pass remove event to callback' do
           cell(1, 1)
-          callback.should_receive(:toggle).with(1, 1)
+          callback.should_receive(:repaint).with(1, 1)
           subject.tick(callback)
         end
         it 'should pass 2 remove events' do
           cell(1, 1)
           cell(2, 1)
           
-          callback.should_receive(:toggle).with(1, 1)
-          callback.should_receive(:toggle).with(2, 1)
+          callback.should_receive(:repaint).with(1, 1)
+          callback.should_receive(:repaint).with(2, 1)
 
           subject.tick(callback)
         end
@@ -211,10 +211,10 @@ module Gol
           cell(2, 1)
           cell(3, 1)
 
-          callback.should_receive(:toggle).with(1, 1)
-          callback.should_receive(:toggle).with(3, 1)
-          callback.should_receive(:toggle).with(2, 0)
-          callback.should_receive(:toggle).with(2, 2)
+          callback.should_receive(:repaint).with(1, 1)
+          callback.should_receive(:repaint).with(3, 1)
+          callback.should_receive(:repaint).with(2, 0)
+          callback.should_receive(:repaint).with(2, 2)
 
           subject.tick(callback)
         end
