@@ -22,7 +22,7 @@ module Gol
         row = []
         @cells << row
         (0..@x).each do |x|
-          row << Cell.new(x, y)
+          row << false
         end
       end
     end
@@ -61,19 +61,19 @@ module Gol
     end
 
     def resurrect(x, y)
-      self.[](x, y).resurrect
+      @cells[y][x] = true
     end
 
     def each
-      @cells.each do |cell_column|
-        cell_column.select(&:alive?).each do |cell|
-          yield(cell)
+      (0..@y).each do |y|
+        (0..@x).each do |x|
+          yield([x, y]) if self.[](x, y)
         end
       end
     end
 
     def remove(x, y)
-      self.[](x, y).die
+      @cells[y][x] = false
     end
 
     def empty?
