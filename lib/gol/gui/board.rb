@@ -9,7 +9,8 @@ module Gol
 
       attr_reader :size, :margin
 
-      def initialize(universe = Universe.new(50, 50))
+      def initialize(app, universe = Universe.new(50, 50))
+        @app = app
         @universe = universe
         @board = []
         @universe.y.times { @board << [] }

@@ -6,7 +6,7 @@ require 'gol/gui/board'
 module Gol
   module Gui
     Shoes.app(title: 'Game of life', width: 667, height: 687) do
-      @board = Board.new
+      @board = Board.new(self)
 
       click { |button, x, y|
         cord_x = (x - Board::FIELD_SIZE) / (Board::FIELD_SIZE + Board::FIELD_MARGIN)
