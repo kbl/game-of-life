@@ -16,22 +16,6 @@ module Gol
         @universe.y.times { @board << [] }
       end
 
-      def x
-        @universe.x
-      end
-
-      def y
-        @universe.y
-      end
-
-      def []=(x, y, value)
-        @board[y][x] = value
-      end
-
-      def [](x, y)
-        @board[y][x]
-      end
-
       def toggle(x, y)
         @universe.toggle(x, y)
         repaint(x, y)
@@ -42,11 +26,18 @@ module Gol
       end
 
       def repaint(x, y)
-        rect = @board[y][x]
         if(@universe[x, y])
-          rect.style(fill: rgb(0, 0, 0))
+          border_x = x * Board::FIELD_MARGIN
+          previous_blocks_x = Board::FIELD_SIZE * (x + 1)
+
+          border_y = y * Board::FIELD_MARGIN
+          previous_blocks_y = Board::FIELD_SIZE * (y + 1)
+
+          @board[y][x] = @app.rect(width: Board::FIELD_SIZE,
+             left: previous_blocks_x + border_x,
+             top: previous_blocks_y + border_y)
         else
-          rect.style(fill: rgb(255, 255, 255))
+          @board[y][x].remove
         end
       end
     end
