@@ -52,7 +52,7 @@ module Gol
         toggle_cords << [cell.x, cell.y] if (to_many_neighbours || to_few_neighbours)
       end
 
-      #toggle_cords += reproduct(callback)
+      toggle_cords += reproduct(callback)
 
       toggle_cords.each do |cords|
         self.[](*cords).toggle
@@ -115,13 +115,13 @@ module Gol
       cell_to_reproduction = Set.new
 
       each do |cell|
-        neighbours_each(cell.x, cell.y) do |cords|
-          self.[](*cords).alive?
-          cell.empty_neighbours.each do |cords|
-            cell_to_reproduction << cords if neighbours(*cords).count == REPRODUCTION_COUNT
-          end
+        dead_neighbours(*cell.cords).each do |dead_cell|
+          n = neighbours(*dead_cell.cords)
+          cell_to_reproduction << dead_cell.cords if n.size == REPRODUCTION_COUNT
         end
       end
+
+      cell_to_reproduction.to_a
     end
 
   end
