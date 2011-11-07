@@ -6,28 +6,25 @@ require 'gol/gui/board'
 module Gol
   module Gui
     Shoes.app(title: 'Game of life', width: 667, height: 687) do
-      @size = 10
-      @margin = 3
-
       @board = Board.new
 
       click { |button, x, y|
-        cord_x = (x - @size) / (@size + @margin)
-        cord_y = (y - @size) / (@size + @margin)
+        cord_x = (x - Board::SIZE) / (Board::SIZE + Board::MARGIN)
+        cord_y = (y - Board::SIZE) / (Board::SIZE + Board::MARGIN)
 
         @board.toggle(cord_x, cord_y)
       }
 
       flow do
         @board.x.times do |x|
-          border_x = x * @margin
-          previous_blocks_x = @size * (x + 1)
+          border_x = x * Board::MARGIN
+          previous_blocks_x = Board::SIZE * (x + 1)
 
           @board.y.times do |y|
-            border_y = y * @margin
-            previous_blocks_y = @size * (y + 1)
+            border_y = y * Board::MARGIN
+            previous_blocks_y = Board::SIZE * (y + 1)
 
-            rectangle = rect(width: @size,
+            rectangle = rect(width: Board::SIZE,
                  left: previous_blocks_x + border_x,
                  top: previous_blocks_y + border_y,
                  fill: rgb(240, 240, 240),

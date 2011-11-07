@@ -3,6 +3,12 @@ require 'gol/universe'
 module Gol
   module Gui
     class Board
+
+      SIZE = 10
+      MARGIN = 3
+
+      attr_reader :size, :margin
+
       def initialize(universe = Universe.new(50, 50))
         @universe = universe
         @board = []
