@@ -1,4 +1,3 @@
-require 'gol/cell'
 require 'gol/neighbourhood'
 require 'set'
 
@@ -22,20 +21,19 @@ module Gol
         row = []
         @cells << row
         (0..@x).each do |x|
-          row << Cell.new(x, y)
+          row << false
         end
       end
     end
 
-    def size
-      [@x, @y]
+    def [](x, y)
+      x, y = normalize(x, y)
+      @cells[y][x]
     end
 
-    def [](x, y)
-      x %= @x
-      y %= @y
-
-      @cells[y][x]
+    def []=(x, y, value)
+      x, y = normalize(x, y)
+      @cells[y][x] = value
     end
 
     def tick(callback = nil)
@@ -43,13 +41,13 @@ module Gol
 
       toggle_cords = []
 
-      each do |cell|
-        n = neighbours(cell.x, cell.y)
+      each do |cords|
+        n = neighbours(*cords)
 
         to_many_neighbours = n.count > OVERCROUDED_COUNT
         to_few_neighbours = n.count < STARVATION_COUNT
-        
-        toggle_cords << [cell.x, cell.y] if (to_many_neighbours || to_few_neighbours)
+
+        toggle_cords << cords if (to_many_neighbours || to_few_neighbours)
       end
 
       toggle_cords += reproduct
@@ -60,20 +58,12 @@ module Gol
       end
     end
 
-    def resurrect(x, y)
-      self.[](x, y).resurrect
-    end
-
     def each
-      @cells.each do |cell_column|
-        cell_column.select(&:alive?).each do |cell|
-          yield(cell)
+      @cells.each_with_index do |column, y|
+        column.each_with_index do |cell, x|
+          yield([x, y]) if cell
         end
       end
-    end
-
-    def remove(x, y)
-      self.[](x, y).die
     end
 
     def empty?
@@ -83,8 +73,7 @@ module Gol
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|
-        cell = self.[](*cords)
-        alive << cell if cell.alive?
+        alive << normalize(*cords) if self.[](*cords)
       end
       alive
     end
@@ -92,17 +81,20 @@ module Gol
     def dead_neighbours(x, y)
       dead = []
       neighbours_each(x, y) do |cords|
-        cell = self.[](*cords)
-        dead << cell unless cell.alive?
+        dead << normalize(*cords) unless self.[](*cords)
       end
       dead
     end
 
     def toggle(x, y)
-      self.[](x, y).toggle
+      self.[]=(x, y, !self.[](x, y))
     end
 
-    private 
+    private
+
+    def normalize(x, y)
+      [x % @x, y % @y]
+    end
 
     class NoOpCallback
       def repaint(x, y)
@@ -112,10 +104,10 @@ module Gol
     def reproduct
       cell_to_reproduction = Set.new
 
-      each do |cell|
-        dead_neighbours(*cell.cords).each do |dead_cell|
-          n = neighbours(*dead_cell.cords)
-          cell_to_reproduction << dead_cell.cords if n.size == REPRODUCTION_COUNT
+      each do |cords|
+        dead_neighbours(*cords).each do |dead_cords|
+          n = neighbours(*dead_cords)
+          cell_to_reproduction << normalize(*dead_cords) if n.size == REPRODUCTION_COUNT
         end
       end
 

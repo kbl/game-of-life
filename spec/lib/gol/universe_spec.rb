@@ -6,8 +6,8 @@ module Gol
     subject { Universe.new }
 
     def cell(x, y)
-      subject.resurrect(x, y)
-      subject[x, y]
+      subject.toggle(x, y)
+      [x, y]
     end
 
     describe 'universe creation' do
@@ -40,7 +40,7 @@ module Gol
     describe 'Universe#neighbours' do
       before :each do
         @center = [1, 1]
-        subject.resurrect(*@center)
+        subject.toggle(*@center)
       end
 
       it 'should have one neighbour (0,0)' do
@@ -81,13 +81,9 @@ module Gol
       it 'should have access to cell at specified cords' do 
         subject[0, 0].should_not be_nil
       end
-      it 'sholuld return cell with proper cords' do
-        subject[0, 1].x.should == 0
-        subject[0, 1].y.should == 1
-      end
       it 'cords should be counded with %' do
-        subject[123, 12].x.should == 23
-        subject[123, 12].y.should == 12
+        subject.toggle(123, 12)
+        subject[123, 12].should be_true
       end
     end
 
@@ -104,13 +100,6 @@ module Gol
     end
 
     describe 'universe size' do
-      it 'each universe must have size, default 100x100' do
-        subject.size.should == [100, 100]
-      end
-      it 'should be posiible to create universe with specified size' do
-        size = [10, 10]
-        Universe.new(*size).size.should == size
-      end
       it 'should be possible to get size of each axis' do
         u = Universe.new(4, 5)
         u.x.should == 4
@@ -120,22 +109,15 @@ module Gol
 
     describe 'infinite universe' do
       it 'should create cells on infinite manner (101,102) becomes (1,2)' do
-        c = cell(101, 102)
+        cell(101, 102)
 
         subject.count.should == 1
-        subject[1, 2].should == c
-      end
-      it 'should change moved cell cords according to universe size' do
-        c = cell(101, 102)
-        c.x.should == 1
-        c.y.should == 2
+        subject[1, 2].should be_true
       end
       it 'should be possible to put cell on borders - edge case' do
-        c = cell(99, 99)
+        cell(99, 99)
 
-        subject[99, 99].should == c
-        c.x.should == 99
-        c.y.should == 99
+        subject[99, 99].should be_true
       end
       it 'should find neighbours on universe edges' do
         c0_0 = cell(0, 0)
@@ -161,7 +143,7 @@ module Gol
         subject.toggle(0, 0)
 
         subject.count.should == 1
-        subject[0, 0].should_not be_nil
+        subject[0, 0].should be_true
       end
       it 'toggling should remove existing cell' do
         cell(0, 0)
@@ -289,10 +271,9 @@ module Gol
             subject.should contain([c1, c2, c3])
             subject.count.should == 4
 
-            neighbours = subject.neighbours(*c3.cords)
+            neighbours = subject.neighbours(*c3)
             neighbours.size.should == 3
-            neighbours[0].x.should == 2
-            neighbours[0].y.should == 2
+            neighbours[0].should == [2, 2]
           end
           it 'should properly reproduct cells (6 from 4)' do
             c1 = cell(1, 1)

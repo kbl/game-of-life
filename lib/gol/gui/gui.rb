@@ -38,7 +38,7 @@ module Gol
       end
       
       button 'start' do
-        every(1) do
+        every(0.1) do
           @board.tick
         end
       end

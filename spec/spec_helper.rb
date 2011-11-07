@@ -1,4 +1,3 @@
-require 'gol/cell'
 require 'gol/universe'
 require 'gol/gui/board'
 
