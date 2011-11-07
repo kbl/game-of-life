@@ -4,8 +4,8 @@ module Gol
   module Gui
     class Board
 
-      SIZE = 10
-      MARGIN = 3
+      FIELD_SIZE = 10
+      FIELD_MARGIN = 3
 
       attr_reader :size, :margin
 
