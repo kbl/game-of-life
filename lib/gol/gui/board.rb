@@ -17,8 +17,13 @@ module Gol
       end
 
       def toggle(x, y)
-        @universe.toggle(x, y)
-        repaint(x, y)
+        x_valid = (0..(@universe.x - 1)).include?(x)
+        y_valid = (0..(@universe.y - 1)).include?(y)
+
+        if(x_valid && y_valid)
+          @universe.toggle(x, y)
+          repaint(x, y)
+        end
       end
 
       def tick
