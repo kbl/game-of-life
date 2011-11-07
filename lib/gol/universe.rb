@@ -99,7 +99,7 @@ module Gol
     end
 
     def toggle(x, y)
-      @cell[y][x] = !@cell[y][x]
+      @cells[y][x] = !@cells[y][x]
     end
 
     private 
