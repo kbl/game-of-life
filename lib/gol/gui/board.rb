@@ -36,21 +36,11 @@ module Gol
 
       def repaint(x, y)
         rect = @board[x][y]
-        if(@universe[x, y])
-          create(x, y)
+        if(@universe[x, y].alive?)
+          rect.style(fill: rgb(0, 0, 0))
         else
-          remove(x, y)
+          rect.style(fill: rgb(255, 255, 255))
         end
-      end
-
-      def create(x, y)
-        rect = @board[x][y]
-        rect.style(fill: rgb(0, 0, 0))
-      end
-
-      def remove(x, y)
-        rect = @board[x][y]
-        rect.style(fill: rgb(255, 255, 255))
       end
     end
   end
