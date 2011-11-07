@@ -15,11 +15,14 @@ module Gol
         @board.toggle(cord_x, cord_y)
       }
 
-      flow top: 670 do
+      flow top: 670, left: 7 do
         button 'start' do
-          every(0.1) do
+          @loop = every(0.1) do
             @board.tick
           end
+        end
+        button 'stop' do
+          @loop.stop
         end
         button 'step' do
           @board.tick
