@@ -26,10 +26,6 @@ module Gol
       end
     end
 
-    def size
-      [@x, @y]
-    end
-
     def [](x, y)
       x, y = normalize(x, y)
       @cells[y][x]
