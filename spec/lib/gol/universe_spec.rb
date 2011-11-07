@@ -6,7 +6,7 @@ module Gol
     subject { Universe.new }
 
     def cell(x, y)
-      subject.resurrect(x, y)
+      subject.toggle(x, y)
       [x, y]
     end
 
@@ -40,7 +40,7 @@ module Gol
     describe 'Universe#neighbours' do
       before :each do
         @center = [1, 1]
-        subject.resurrect(*@center)
+        subject.toggle(*@center)
       end
 
       it 'should have one neighbour (0,0)' do
@@ -82,7 +82,7 @@ module Gol
         subject[0, 0].should_not be_nil
       end
       it 'cords should be counded with %' do
-        subject.resurrect(123, 12)
+        subject.toggle(123, 12)
         subject[123, 12].should be_true
       end
     end
@@ -100,13 +100,6 @@ module Gol
     end
 
     describe 'universe size' do
-      it 'each universe must have size, default 100x100' do
-        subject.size.should == [100, 100]
-      end
-      it 'should be posiible to create universe with specified size' do
-        size = [10, 10]
-        Universe.new(*size).size.should == size
-      end
       it 'should be possible to get size of each axis' do
         u = Universe.new(4, 5)
         u.x.should == 4

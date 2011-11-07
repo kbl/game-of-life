@@ -58,10 +58,6 @@ module Gol
       end
     end
 
-    def resurrect(x, y)
-      self.[]=(x, y, true)
-    end
-
     def each
       (0..@y).each do |y|
         (0..@x).each do |x|
