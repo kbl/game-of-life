@@ -100,7 +100,9 @@ module Gol
     end
 
     def toggle(x, y)
-      self.[]=(x, y, self.[](x, y))
+      x, y = normalize(x, y)
+      @cells[y][x] = !@cells[y][x]
+      #self.[]=(x, y, self.[](x, y))
     end
 
     private

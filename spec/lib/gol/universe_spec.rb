@@ -278,10 +278,9 @@ module Gol
             subject.should contain([c1, c2, c3])
             subject.count.should == 4
 
-            neighbours = subject.neighbours(*c3.cords)
+            neighbours = subject.neighbours(*c3)
             neighbours.size.should == 3
-            neighbours[0].x.should == 2
-            neighbours[0].y.should == 2
+            neighbours[0].should == [2, 2]
           end
           it 'should properly reproduct cells (6 from 4)' do
             c1 = cell(1, 1)
