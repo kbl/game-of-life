@@ -31,21 +31,23 @@ module Gol
 
           board = Board.new(mock_universe)
           def board.rgb(r, g, b)
-            'rgb'
+            "#{r} #{g} #{b}"
           end
           board[1, 2] = field
 
           mock_universe.stub(:[]).and_return(Cell.new(1, 2))
           mock_universe.should_receive(:toggle).with(1, 2)
-          field.should_receive(:style).with(fill: 'rgb')
+          field.should_receive(:style).with(fill: '255 255 255')
           board.toggle(1, 2)
         end
         it 'should pass toggle event to field' do
-          pending
           field = mock('field')
           field.should_receive(:style)
 
           subject[1, 2] = field
+          def subject.rgb(r, g, b)
+            "#{r} #{g} #{b}"
+          end
 
           subject.toggle(1, 2)
         end
