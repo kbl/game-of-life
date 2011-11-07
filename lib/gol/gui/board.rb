@@ -24,11 +24,11 @@ module Gol
       end
 
       def []=(x, y, value)
-        @board[x][y] = value
+        @board[y][x] = value
       end
 
       def [](x, y)
-        @board[x][y]
+        @board[y][x]
       end
 
       def toggle(x, y)
@@ -41,7 +41,7 @@ module Gol
       end
 
       def repaint(x, y)
-        rect = @board[x][y]
+        rect = @board[y][x]
         if(@universe[x, y])
           rect.style(fill: rgb(0, 0, 0))
         else
