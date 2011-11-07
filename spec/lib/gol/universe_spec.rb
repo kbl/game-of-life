@@ -7,7 +7,7 @@ module Gol
 
     def cell(x, y)
       subject.resurrect(x, y)
-      subject[x, y]
+      [x, y]
     end
 
     describe 'universe creation' do
@@ -80,14 +80,6 @@ module Gol
     describe 'Universe#[]' do
       it 'should have access to cell at specified cords' do 
         subject[0, 0].should_not be_nil
-      end
-      it 'sholuld return cell with proper cords' do
-        subject[0, 1].x.should == 0
-        subject[0, 1].y.should == 1
-      end
-      it 'cords should be counded with %' do
-        subject[123, 12].x.should == 23
-        subject[123, 12].y.should == 12
       end
     end
 

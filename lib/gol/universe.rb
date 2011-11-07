@@ -38,6 +38,13 @@ module Gol
       @cells[y][x]
     end
 
+    def []=(x, y, value)
+      x %= @x
+      y %= @y
+
+      @cells[y][x] = value
+    end
+
     def tick(callback = nil)
       callback ||= NoOpCallback.new
 
@@ -48,7 +55,7 @@ module Gol
 
         to_many_neighbours = n.count > OVERCROUDED_COUNT
         to_few_neighbours = n.count < STARVATION_COUNT
-        
+
         toggle_cords << cords if (to_many_neighbours || to_few_neighbours)
       end
 
@@ -61,7 +68,7 @@ module Gol
     end
 
     def resurrect(x, y)
-      @cells[y][x] = true
+      self.[]=(x, y, true)
     end
 
     def each
@@ -73,7 +80,7 @@ module Gol
     end
 
     def remove(x, y)
-      @cells[y][x] = false
+      self.[]=(x, y, false)
     end
 
     def empty?
@@ -83,8 +90,7 @@ module Gol
     def neighbours(x, y)
       alive = []
       neighbours_each(x, y) do |cords|
-        cell = @cells[cords[1]][cords[0]]
-        alive << cords if cell
+        alive << cords if self.[](*cords)
       end
       alive
     end
@@ -92,17 +98,16 @@ module Gol
     def dead_neighbours(x, y)
       dead = []
       neighbours_each(x, y) do |cords|
-        cell = @cells[cords[1]][cords[0]]
-        dead << cords unless cell
+        dead << cords unless self.[](*cords)
       end
       dead
     end
 
     def toggle(x, y)
-      @cells[y][x] = !@cells[y][x]
+      self.[]=(x, y, self.[](x, y))
     end
 
-    private 
+    private
 
     class NoOpCallback
       def repaint(x, y)
