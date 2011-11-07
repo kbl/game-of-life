@@ -5,8 +5,9 @@ module Gol
 
     subject { Universe.new }
 
-    def cell(*cords)
-      Cell.new(subject, *cords)
+    def cell(x, y)
+      subject.resurrect(x, y)
+      subject[x, y]
     end
 
     describe 'universe creation' do
@@ -21,13 +22,72 @@ module Gol
       end
     end
 
-    describe 'cell access' do
-      it 'should have access to cell at specified cords' do 
-        cell = Cell.new(subject)
-        subject[0, 0].should == cell
+    describe 'Universei#dead_neighbours' do
+      it 'should have 8 dead neighbours' do
+        subject.toggle(1, 1)
+        subject.dead_neighbours(1, 1).size.should == 8
       end
-      it 'should return nil for unknown cell' do
-        subject[123, 12].should be_nil
+      it 'should have 8 dead neighbours (corner)' do
+        subject.toggle(0, 0)
+        subject.dead_neighbours(0, 0).size.should == 8
+      end
+      it 'should have 8 dead neighbours (edge)' do
+        subject.toggle(1, 0)
+        subject.dead_neighbours(1, 0).size.should == 8
+      end
+    end
+
+    describe 'Universe#neighbours' do
+      before :each do
+        @center = [1, 1]
+        subject.resurrect(*@center)
+      end
+
+      it 'should have one neighbour (0,0)' do
+        c = cell(0, 0)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (0,1)' do
+        c = cell(0, 1)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (0,2)' do
+        c = cell(0, 2)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (1,0)' do
+        c = cell(1, 0)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (1,2)' do
+        c = cell(1, 2)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,0)' do
+        c = cell(2, 0)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,1)' do
+        c = cell(2, 1)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+      it 'should have one neighbour (2,2)' do
+        c = cell(2, 2)
+        subject.neighbours(*@center).should have_neighbours(c)
+      end
+    end
+
+    describe 'Universe#[]' do
+      it 'should have access to cell at specified cords' do 
+        subject[0, 0].should_not be_nil
+      end
+      it 'sholuld return cell with proper cords' do
+        subject[0, 1].x.should == 0
+        subject[0, 1].y.should == 1
+      end
+      it 'cords should be counded with %' do
+        subject[123, 12].x.should == 23
+        subject[123, 12].y.should == 12
       end
     end
 
@@ -90,7 +150,7 @@ module Gol
         c99_1 = cell(99, 1)
         c99_99 = cell(99, 99)
 
-        c0_0.should have_neighbours([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
+        subject.neighbours(0, 0).should contain([c99_0, c99_1, c0_1, c1_1, c1_0, c1_99, c0_99, c99_99])
       end
     end
 
@@ -116,15 +176,12 @@ module Gol
     describe 'Universe#tick' do
       context 'repeated ticks' do
         it 'blinker oscilator' do
-          pending
           cell(1, 0)
           cell(1, 1)
           cell(1, 2)
 
-          30.times do |i|
+          10.times do |i|
             subject.tick
-            p '===='
-            subject.each { |c| p c }
             subject.count.should == 3
           end
         end
@@ -137,15 +194,15 @@ module Gol
         end
         it 'should pass remove event to callback' do
           cell(1, 1)
-          callback.should_receive(:remove).with(1, 1)
+          callback.should_receive(:repaint).with(1, 1)
           subject.tick(callback)
         end
         it 'should pass 2 remove events' do
           cell(1, 1)
           cell(2, 1)
           
-          callback.should_receive(:remove).with(1, 1)
-          callback.should_receive(:remove).with(2, 1)
+          callback.should_receive(:repaint).with(1, 1)
+          callback.should_receive(:repaint).with(2, 1)
 
           subject.tick(callback)
         end
@@ -154,10 +211,10 @@ module Gol
           cell(2, 1)
           cell(3, 1)
 
-          callback.should_receive(:remove).with(1, 1)
-          callback.should_receive(:remove).with(3, 1)
-          callback.should_receive(:create).with(2, 0)
-          callback.should_receive(:create).with(2, 2)
+          callback.should_receive(:repaint).with(1, 1)
+          callback.should_receive(:repaint).with(3, 1)
+          callback.should_receive(:repaint).with(2, 0)
+          callback.should_receive(:repaint).with(2, 2)
 
           subject.tick(callback)
         end
@@ -231,9 +288,11 @@ module Gol
 
             subject.should contain([c1, c2, c3])
             subject.count.should == 4
-            c3.neighbours.count.should == 3
-            c3.neighbours[0].x.should == 2
-            c3.neighbours[0].y.should == 2
+
+            neighbours = subject.neighbours(*c3.cords)
+            neighbours.size.should == 3
+            neighbours[0].x.should == 2
+            neighbours[0].y.should == 2
           end
           it 'should properly reproduct cells (6 from 4)' do
             c1 = cell(1, 1)

@@ -1,4 +1,3 @@
-require 'gol/universe'
 require 'gol/neighbourhood'
 
 module Gol
@@ -6,52 +5,43 @@ module Gol
 
     include Neighbourhood
 
-    attr_reader :universe
     attr_accessor :x, :y
 
-    def initialize(universe, x = 0, y = 0)
+    def initialize(x = 0, y = 0)
       @x, @y = x, y
-      @universe = universe
-      @dying = false
-      universe << self
+      @alive = false
     end
 
-    def neighbours
-      neighbours_each do |cords|
-        universe[*cords]
-      end
-    end
-
-    def empty_neighbours
-      neighbours_each do |cords|
-        cords_lower_than_zero = cords.any? { |axis| axis < 0 }
-
-        unless(cords_lower_than_zero)
-          neighbour = universe[*cords]
-          cords unless neighbour
-        end
-      end
+    def cords
+      [@x, @y]
     end
 
     def alive?
-      not dying?
+      @alive
     end
 
-    def dying?
-      @dying
-    end
-    
-    def dying
-      @dying = true
+    def pulverize
+      @alive = false
     end
 
-    def remove!
-      @universe.remove(self)
+    def resurrect
+      @alive = true
     end
 
     def to_s
       "Cell[#{@x}, #{y}]"
     end
 
+    def toggle
+      @alive = !@alive
+    end
+
+    def neighbours
+      n = []
+      neighbours_each do |cords|
+        n << cords
+      end
+      n
+    end
   end
 end
