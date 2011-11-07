@@ -105,9 +105,7 @@ module Gol
     private 
 
     class NoOpCallback
-      def create(x, y)
-      end
-      def remove(x, y)
+      def toggle(x, y)
       end
     end
 
