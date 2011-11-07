@@ -66,10 +66,6 @@ module Gol
       end
     end
 
-    def remove(x, y)
-      self.[]=(x, y, false)
-    end
-
     def empty?
       count == 0
     end
