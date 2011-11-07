@@ -52,12 +52,11 @@ module Gol
         toggle_cords << [cell.x, cell.y] if (to_many_neighbours || to_few_neighbours)
       end
 
-      toggle_cords += reproduct(callback)
+      #toggle_cords += reproduct(callback)
 
       toggle_cords.each do |cords|
-        self.[](*cors).toggle
-        # TODO
-        callback.remove(cell.x, cell.y)
+        self.[](*cords).toggle
+        callback.toggle(*cords)
       end
     end
 
